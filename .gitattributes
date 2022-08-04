@@ -323,3 +323,4 @@
 /Content/Mannequin/Animations/RootMotion/KB_p_Uppercut_L.fbx filter=lfs diff=lfs merge=lfs -text
 /Content/Mannequin/Animations/RootMotion/KB_p_Uppercut_R.fbx filter=lfs diff=lfs merge=lfs -text
 /PROJECT_RGBXGAMEMODE.ipch filter=lfs diff=lfs merge=lfs -text
+/Content/Blueprint/Logic/Setup/DefaultGameModeBP.uasset filter=lfs diff=lfs merge=lfs -text
