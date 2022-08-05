@@ -1,3 +1,3 @@
-# Project_RGBX
+# Project RGB
 
-Developed with Unreal Engine 4
+Developed by Timothy Abiade with Unreal Engine
