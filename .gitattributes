@@ -324,3 +324,10 @@
 /Content/Mannequin/Animations/RootMotion/KB_p_Uppercut_R.fbx filter=lfs diff=lfs merge=lfs -text
 /PROJECT_RGBXGAMEMODE.ipch filter=lfs diff=lfs merge=lfs -text
 /Content/Blueprint/Logic/Setup/DefaultGameModeBP.uasset filter=lfs diff=lfs merge=lfs -text
+/Content/Blueprints/Characters/CHARGE_BP.uasset filter=lfs diff=lfs merge=lfs -text
+/Content/Blueprints/Characters/GRAPPLER_BP.uasset filter=lfs diff=lfs merge=lfs -text
+/Content/Blueprints/Characters/REKKA_BP.uasset filter=lfs diff=lfs merge=lfs -text
+/Content/Blueprints/Characters/RUSHDOWN_BP.uasset filter=lfs diff=lfs merge=lfs -text
+/Content/Blueprints/Characters/SHOTO_BP.uasset filter=lfs diff=lfs merge=lfs -text
+/Content/Blueprints/Characters/ZONER_BP.uasset filter=lfs diff=lfs merge=lfs -text
+/Content/Blueprints/Logic/Setup/DefaultGameModeBP.uasset filter=lfs diff=lfs merge=lfs -text
