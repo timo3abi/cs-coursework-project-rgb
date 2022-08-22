@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Project_RGBXCharacter.generated.h"
 
+
 UCLASS(config=Game)
 class AProject_RGBXCharacter : public ACharacter
 {
@@ -48,6 +49,9 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void TakeDamage(float _damageAmount);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player References")
+	AProject_RGBXCharacter* otherFighter;
+
 	// Current amount of health
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float playerHealth;
@@ -76,8 +80,22 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Normals")
 	bool wasHkUsed;
 
+	// boolean variable for if the model is flipped
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Model")
+	bool isFlipped;
+
+	//character model location
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Model")
+	FTransform transform;
+
+	// character model size
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Model")
+	FVector scale;
+
 public:
 	AProject_RGBXCharacter();
+
+	void Tick(float DeltaTime);
 
 	/** Returns SideViewCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }

@@ -32,7 +32,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	SideViewCameraComponent->bUsePawnControlRotation = false; // We don't want the controller rotating the camera
 
 	// Configure character movement
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Face in the direction we are moving..
+	GetCharacterMovement()->bOrientRotationToMovement = false; // Face in the direction we are moving.. i turned this off as we want the characters to always face each other anot freely rotate
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->GravityScale = 2.f;
 	GetCharacterMovement()->AirControl = 0.80f;
@@ -41,8 +41,12 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 	GetCharacterMovement()->MaxFlySpeed = 600.f;
 
+
+	otherFighter = nullptr;
 	hurtbox = nullptr;
 	playerHealth = 1.00f;
+	scale = FVector(0.0f, 0.0f, 0.0f);
+	isFlipped = false;
 	wasLpUsed = false;
 	wasMpUsed = false;
 	wasHpUsed = false;
@@ -128,7 +132,8 @@ void AProject_RGBXCharacter::StartHK()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Using HK"));
 	wasHkUsed = true;
-	//TakeDamage(0.05f);
+	//TakeDamage(0.05f); 
+	// testing damage
 }
 
 void AProject_RGBXCharacter::TakeDamage(float _damageAmount)
@@ -139,5 +144,57 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount)
 	if (playerHealth < 0.00f)
 	{
 		playerHealth = 0.00f;
+	}
+}
+
+// the tick function is called every frame of the game session
+void AProject_RGBXCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	{
+		if (otherFighter)
+		{
+			if (auto characterMovement = GetCharacterMovement())
+			{
+				if (auto enemyMovement = otherFighter->GetCharacterMovement())
+				{
+					// if the other fighter is to the right 
+					if (enemyMovement->GetActorLocation().Y >= characterMovement->GetActorLocation().Y)
+					{
+						if (isFlipped)
+						{
+							if (auto mesh = GetCapsuleComponent()->GetChildComponent(1))
+							{
+								transform = mesh->GetRelativeTransform();
+								scale = transform.GetScale3D();
+								scale.Y = -1;
+								transform.SetScale3D(scale);
+								mesh->SetRelativeTransform(transform);
+
+							}
+							isFlipped = false;
+
+						}
+					}
+					else
+					{
+						if (!isFlipped)
+						{
+							if (auto meshComponent = GetCapsuleComponent()->GetChildComponent(1))
+							{
+								transform = meshComponent->GetRelativeTransform();
+								scale = transform.GetScale3D();
+								scale.Y = 1;
+								transform.SetScale3D(scale);
+								meshComponent->SetRelativeTransform(transform);
+
+							}
+							isFlipped = true;
+						}
+
+					}
+				}
+			}
+		}
 	}
 }
