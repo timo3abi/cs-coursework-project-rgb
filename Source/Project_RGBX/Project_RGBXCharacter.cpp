@@ -41,6 +41,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 	GetCharacterMovement()->MaxFlySpeed = 600.f;
 
+	hurtbox = nullptr;
 	playerHealth = 1.00f;
 	wasLpUsed = false;
 	wasMpUsed = false;

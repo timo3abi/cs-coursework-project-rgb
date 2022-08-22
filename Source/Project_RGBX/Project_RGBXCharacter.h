@@ -41,6 +41,8 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		AActor* hurtbox;
 
 	// How the player takes damage
 	UFUNCTION(BlueprintCallable)
