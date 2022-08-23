@@ -6,6 +6,15 @@
 #include "GameFramework/Character.h"
 #include "Project_RGBXCharacter.generated.h"
 
+// So that We can flag directional inputs alongside attacks
+
+UENUM(BlueprintType)
+enum class EDirectionalInput : uint8
+{
+	VE_Default			UMETA(DisplayName = "STATIONARY"),
+	VE_MovingRight		UMETA(DisplayName = "MOVING_RIGHT"),
+	VE_MovingLeft		UMETA(DisplayName = "MOVING_LEFT")
+};
 
 UCLASS(config=Game)
 class AProject_RGBXCharacter : public ACharacter
@@ -51,6 +60,10 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player References")
 	AProject_RGBXCharacter* otherFighter;
+
+	// direction the character is moving. instance of enum declared above
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	EDirectionalInput directionalInput;
 
 	// Current amount of health
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")

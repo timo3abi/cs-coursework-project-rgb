@@ -43,10 +43,17 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 
 
 	otherFighter = nullptr;
+
 	hurtbox = nullptr;
+
+	directionalInput = EDirectionalInput::VE_Default;
+
 	playerHealth = 1.00f;
+
 	scale = FVector(0.0f, 0.0f, 0.0f);
+
 	isFlipped = false;
+
 	wasLpUsed = false;
 	wasMpUsed = false;
 	wasHpUsed = false;
@@ -81,6 +88,23 @@ void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 
 void AProject_RGBXCharacter::MoveRight(float Value)
 {
+	
+
+	if (Value > 0.20f)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
+		directionalInput = EDirectionalInput::VE_MovingRight;
+	}
+	else if (Value < -0.20f)
+	{
+		directionalInput = EDirectionalInput::VE_MovingLeft;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
+		directionalInput = EDirectionalInput::VE_Default;
+	}
+
 	// add movement in that direction
 	AddMovementInput(FVector(0.f,-1.f,0.f), Value);
 }
@@ -95,6 +119,7 @@ void AProject_RGBXCharacter::TouchStopped(const ETouchIndex::Type FingerIndex, c
 {
 	StopJumping();
 }
+
 
 void AProject_RGBXCharacter::StartLP()
 {
