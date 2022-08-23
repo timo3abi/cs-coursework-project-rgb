@@ -89,7 +89,7 @@ void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 
 void AProject_RGBXCharacter::MoveRight(float Value)
 {
-	if (isFlipped)
+	if (!isFlipped)
 	{
 		if (Value > 0.20f)
 		{
@@ -106,7 +106,8 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 			directionalInput = EDirectionalInput::VE_Default;
 		}
 	}
-	if (!isFlipped)
+
+	else if (isFlipped)
 	{
 		if (Value > 0.20f)
 		{
