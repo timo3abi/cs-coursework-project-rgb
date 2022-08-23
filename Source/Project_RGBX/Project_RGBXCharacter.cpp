@@ -53,6 +53,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	scale = FVector(0.0f, 0.0f, 0.0f);
 
 	isFlipped = false;
+	hitLanded = false;
 
 	wasLpUsed = false;
 	wasMpUsed = false;
@@ -164,7 +165,10 @@ void AProject_RGBXCharacter::StartHK()
 void AProject_RGBXCharacter::TakeDamage(float _damageAmount)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Taking %f points of damage"), _damageAmount);
+
 	playerHealth -= _damageAmount;
+
+	otherFighter->hitLanded = true;
 
 	if (playerHealth < 0.00f)
 	{

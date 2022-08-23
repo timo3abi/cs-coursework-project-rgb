@@ -59,7 +59,7 @@ protected:
 	void TakeDamage(float _damageAmount);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player References")
-	AProject_RGBXCharacter* otherFighter;
+	AProject_RGBXCharacter * otherFighter;
 
 	// direction the character is moving. instance of enum declared above
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
@@ -96,6 +96,9 @@ protected:
 	// boolean variable for if the model is flipped
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Model")
 	bool isFlipped;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Normals")
+	bool hitLanded;
 
 	//character model location
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Model")
