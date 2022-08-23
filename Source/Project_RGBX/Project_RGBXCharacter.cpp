@@ -89,25 +89,42 @@ void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 
 void AProject_RGBXCharacter::MoveRight(float Value)
 {
-	
-
-	if (Value > 0.20f)
+	if (isFlipped)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
-		directionalInput = EDirectionalInput::VE_MovingRight;
+		if (Value > 0.20f)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
+			directionalInput = EDirectionalInput::VE_MovingLeft;
+		}
+		else if (Value < -0.20f)
+		{
+			directionalInput = EDirectionalInput::VE_MovingRight;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
+			directionalInput = EDirectionalInput::VE_Default;
+		}
 	}
-	else if (Value < -0.20f)
+	if (!isFlipped)
 	{
-		directionalInput = EDirectionalInput::VE_MovingLeft;
+		if (Value > 0.20f)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
+			directionalInput = EDirectionalInput::VE_MovingRight;
+		}
+		else if (Value < -0.20f)
+		{
+			directionalInput = EDirectionalInput::VE_MovingLeft;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
+			directionalInput = EDirectionalInput::VE_Default;
+		}
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
-		directionalInput = EDirectionalInput::VE_Default;
-	}
-
 	// add movement in that direction
-	AddMovementInput(FVector(0.f,-1.f,0.f), Value);
+	AddMovementInput(FVector(0.f, -1.f, 0.f), Value);
 }
 
 void AProject_RGBXCharacter::TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location)
