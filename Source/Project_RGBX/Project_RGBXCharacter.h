@@ -13,7 +13,8 @@ enum class EDirectionalInput : uint8
 {
 	VE_Default			UMETA(DisplayName = "STATIONARY"),
 	VE_MovingRight		UMETA(DisplayName = "MOVING_RIGHT"),
-	VE_MovingLeft		UMETA(DisplayName = "MOVING_LEFT")
+	VE_MovingLeft		UMETA(DisplayName = "MOVING_LEFT"),
+	VE_Jumping			UMETA(DisplayName = "JUMPING")
 };
 
 UCLASS(config=Game)
@@ -50,6 +51,13 @@ protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
+
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void Jump() override;
+	virtual void StopJumping() override;
+
+	//virtual void Landed(const FHitresult& Hit) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
 		AActor* hurtbox;
@@ -111,7 +119,7 @@ protected:
 public:
 	AProject_RGBXCharacter();
 
-	void Tick(float DeltaTime);
+
 
 	// Returns SideViewCameraComponent subobject 
 	//FORCEINLINE class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }
