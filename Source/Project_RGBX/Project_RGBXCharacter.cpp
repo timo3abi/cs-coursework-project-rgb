@@ -177,8 +177,6 @@ void AProject_RGBXCharacter::StartHK()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Using HK"));
 	wasHkUsed = true;
-	//TakeDamage(0.05f); 
-	// testing damage
 }
 
 void AProject_RGBXCharacter::TakeDamage(float _damageAmount)
