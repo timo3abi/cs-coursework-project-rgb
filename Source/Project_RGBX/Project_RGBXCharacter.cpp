@@ -87,6 +87,7 @@ void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 	PlayerInputComponent->BindTouch(IE_Released, this, &AProject_RGBXCharacter::TouchStopped);
 }
 
+// when the character moves sideways the enum is set accordingly meaning we can script blueprint for directional input functionality
 void AProject_RGBXCharacter::MoveRight(float Value)
 {
 	if (!isFlipped)
@@ -106,7 +107,7 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 			directionalInput = EDirectionalInput::VE_Default;
 		}
 	}
-
+	// if the character ends up being flipped the the directional inputs must also be flipped
 	else if (isFlipped)
 	{
 		if (Value > 0.20f)
