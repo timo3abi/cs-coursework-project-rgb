@@ -37,10 +37,30 @@ class AProject_RGBXCharacter : public ACharacter
 	void StartMK();
 	void StartHK();
 
+	UFUNCTION(BlueprintCallable)
+		void P2KLP();
+	UFUNCTION(BlueprintCallable)
+		void P2KMP();
+	UFUNCTION(BlueprintCallable)
+		void P2KHP();
+	UFUNCTION(BlueprintCallable)
+		void P2KLK();
+	UFUNCTION(BlueprintCallable)
+		void P2KMK();
+	UFUNCTION(BlueprintCallable)
+		void P2KHK();
+
+	UFUNCTION(BlueprintCallable)
+		void P2KJump();
+	UFUNCTION(BlueprintCallable)
+		void P2KStopJumping();
+	UFUNCTION(BlueprintCallable)
+		void P2KMoveRight(float _value);
+
 protected:
 
 	/** Called for side to side input */
-	void MoveRight(float Val);
+	void MoveRight(float Value);
 
 	/** Handle touch inputs. */
 	void TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location);
@@ -54,10 +74,16 @@ protected:
 
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void Jump() override;
-	virtual void StopJumping() override;
+	//virtual void Jump() override;
+	//virtual void StopJumping() override;
+	//virtual void Landed(const FHitResult& Hit) override;
 
-	//virtual void Landed(const FHitresult& Hit) override;
+	//UFUNCTION(BlueprintCallable)
+	//void StartCrouching();
+
+	//UFUNCTION(BlueprintCallable)
+	//void StopCrouching();
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
 		AActor* hurtbox;
@@ -115,6 +141,12 @@ protected:
 	// character model size
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Model")
 	FVector scale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	bool canMove;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Controller")
+	bool is2Pcontroller;
 
 public:
 	AProject_RGBXCharacter();

@@ -6,6 +6,7 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include <Project_RGBX/Project_RGBXGameMode.h>
 
 AProject_RGBXCharacter::AProject_RGBXCharacter()
 {
@@ -52,6 +53,8 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 
 	scale = FVector(0.0f, 0.0f, 0.0f);
 
+	canMove = false;
+
 	isFlipped = false;
 	hitLanded = false;
 
@@ -70,24 +73,45 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 // Input
 
 void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
+
 {
-	// set up gameplay key bindings
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AProject_RGBXCharacter::MoveRight);
+	if (auto gameMode = Cast<AProject_RGBXGameMode>(GetWorld()->GetAuthGameMode()))
+	{
+		if (gameMode->player1==this)
+		{
+			// set up gameplay key bindings
+			PlayerInputComponent->BindAction("Jump1", IE_Pressed, this, &ACharacter::Jump);
+			PlayerInputComponent->BindAction("Jump1", IE_Released, this, &ACharacter::StopJumping);
+			PlayerInputComponent->BindAxis("MoveRightP1", this, &AProject_RGBXCharacter::MoveRight);
 
-	PlayerInputComponent->BindAction("LP", IE_Pressed, this, &AProject_RGBXCharacter::StartLP);
-	PlayerInputComponent->BindAction("MP", IE_Pressed, this, &AProject_RGBXCharacter::StartMP);
-	PlayerInputComponent->BindAction("HP", IE_Pressed, this, &AProject_RGBXCharacter::StartHP);
-	PlayerInputComponent->BindAction("LK", IE_Pressed, this, &AProject_RGBXCharacter::StartLK);
-	PlayerInputComponent->BindAction("MK", IE_Pressed, this, &AProject_RGBXCharacter::StartMK);
-	PlayerInputComponent->BindAction("HK", IE_Pressed, this, &AProject_RGBXCharacter::StartHK);
+			PlayerInputComponent->BindAction("LP1", IE_Pressed, this, &AProject_RGBXCharacter::StartLP);
+			PlayerInputComponent->BindAction("MP1", IE_Pressed, this, &AProject_RGBXCharacter::StartMP);
+			PlayerInputComponent->BindAction("HP1", IE_Pressed, this, &AProject_RGBXCharacter::StartHP);
+			PlayerInputComponent->BindAction("LK1", IE_Pressed, this, &AProject_RGBXCharacter::StartLK);
+			PlayerInputComponent->BindAction("MK1", IE_Pressed, this, &AProject_RGBXCharacter::StartMK);
+			PlayerInputComponent->BindAction("HK1", IE_Pressed, this, &AProject_RGBXCharacter::StartHK);
 
-	PlayerInputComponent->BindTouch(IE_Pressed, this, &AProject_RGBXCharacter::TouchStarted);
-	PlayerInputComponent->BindTouch(IE_Released, this, &AProject_RGBXCharacter::TouchStopped);
+			PlayerInputComponent->BindTouch(IE_Pressed, this, &AProject_RGBXCharacter::TouchStarted);
+			PlayerInputComponent->BindTouch(IE_Released, this, &AProject_RGBXCharacter::TouchStopped);
+		}
+		else
+		{
+			// set up gameplay key bindings
+			PlayerInputComponent->BindAction("Jump2", IE_Pressed, this, &ACharacter::Jump);
+			PlayerInputComponent->BindAction("Jump2", IE_Released, this, &ACharacter::StopJumping);
+			PlayerInputComponent->BindAxis("MoveRightP2", this, &AProject_RGBXCharacter::MoveRight);
+
+			PlayerInputComponent->BindAction("LP2", IE_Pressed, this, &AProject_RGBXCharacter::StartLP);
+			PlayerInputComponent->BindAction("MP2", IE_Pressed, this, &AProject_RGBXCharacter::StartMP);
+			PlayerInputComponent->BindAction("HP2", IE_Pressed, this, &AProject_RGBXCharacter::StartHP);
+			PlayerInputComponent->BindAction("LK2", IE_Pressed, this, &AProject_RGBXCharacter::StartLK);
+			PlayerInputComponent->BindAction("MK2", IE_Pressed, this, &AProject_RGBXCharacter::StartMK);
+			PlayerInputComponent->BindAction("HK2", IE_Pressed, this, &AProject_RGBXCharacter::StartHK);
+		}
+	}
 }
 
-// when the character moves sideways the enum is set accordingly meaning we can script blueprint for directional input functionality
+// when the character moves fwds/bwds the enum is set accordingly meaning we can script blueprint for directional input functionality
 void AProject_RGBXCharacter::MoveRight(float Value)
 {
 	if (!isFlipped)
@@ -131,7 +155,7 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 
 void AProject_RGBXCharacter::TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location)
 {
-	// jump on any touch
+	
 	Jump();
 }
 
@@ -178,6 +202,53 @@ void AProject_RGBXCharacter::StartHK()
 	UE_LOG(LogTemp, Warning, TEXT("Using HK"));
 	wasHkUsed = true;
 }
+
+void AProject_RGBXCharacter::P2KLP()
+{
+	StartLP();
+}
+
+void AProject_RGBXCharacter::P2KMP()
+{
+	StartMP();
+}
+
+void AProject_RGBXCharacter::P2KHP()
+{
+	StartHP();
+}
+
+void AProject_RGBXCharacter::P2KLK()
+{
+	StartLK();
+}
+
+void AProject_RGBXCharacter::P2KMK()
+{
+	StartMK();
+}
+
+void AProject_RGBXCharacter::P2KHK()
+{
+	StartHK();
+}
+
+void AProject_RGBXCharacter::P2KJump()
+{
+	Jump();
+}
+
+void AProject_RGBXCharacter::P2KStopJumping()
+{
+	StopJumping();
+}
+
+void AProject_RGBXCharacter::P2KMoveRight(float _value)
+{
+	MoveRight( _value);
+}
+
+
 
 void AProject_RGBXCharacter::TakeDamage(float _damageAmount)
 {
