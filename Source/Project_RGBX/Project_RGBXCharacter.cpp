@@ -6,7 +6,8 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include <Project_RGBX/Project_RGBXGameMode.h>
+#include "Project_RGBX/Project_RGBXGameMode.h"
+
 
 AProject_RGBXCharacter::AProject_RGBXCharacter()
 {
@@ -58,6 +59,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 
 	isFlipped = false;
 	hitLanded = false;
+	wasMRUsed = false;
 
 	wasLpUsed = false;
 	wasMpUsed = false;
@@ -116,24 +118,25 @@ void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 // when the character moves fwds/bwds the enum is set accordingly meaning we can script blueprint for directional input functionality
 void AProject_RGBXCharacter::MoveRight(float Value)
 {
+	wasMRUsed = true;
 	if (canMove && !isCrouched)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
 		if (directionalInput != EDirectionalInput::VE_Jumping)
 		{
 			if (!isFlipped)
 			{
 				if (Value > 0.20f)
 				{
-					UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
 					directionalInput = EDirectionalInput::VE_MovingLeft;
 				}
 				else if (Value < -0.20f)
 				{
-					UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
 					directionalInput = EDirectionalInput::VE_MovingRight;
 				}
-				else
+				else// if (Value == 0.0f)
 				{
+
 					directionalInput = EDirectionalInput::VE_Default;
 				}
 				AddMovementInput(FVector(0.f, -1.f, 0.f), Value);
@@ -143,15 +146,13 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 			{
 				if (Value > 0.20f)
 				{
-					UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
 					directionalInput = EDirectionalInput::VE_MovingRight;
 				}
 				else if (Value < -0.20f)
 				{
-					UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
 					directionalInput = EDirectionalInput::VE_MovingLeft;
 				}
-				else
+				else// if (Value == 0.0f)
 				{
 					directionalInput = EDirectionalInput::VE_Default;
 				}
@@ -166,6 +167,7 @@ void AProject_RGBXCharacter::Jump()
 {
 	ACharacter::Jump();
 	directionalInput = EDirectionalInput::VE_Jumping;
+	UE_LOG(LogTemp, Warning, TEXT("Jumping"));
 }
 
 void AProject_RGBXCharacter::StopJumping()
@@ -187,7 +189,7 @@ void AProject_RGBXCharacter::StartCrouching()
 void AProject_RGBXCharacter::StopCrouching()
 {
 	isCrouched = false;
-	directionalInput = EDirectionalInput::VE_Default;
+	//directionalInput = EDirectionalInput::VE_Default;
 }
 
 void AProject_RGBXCharacter::StartLP()

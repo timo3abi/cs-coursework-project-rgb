@@ -38,6 +38,7 @@ class AProject_RGBXCharacter : public ACharacter
 	void StartMK();
 	void StartHK();
 
+
 	UFUNCTION(BlueprintCallable)
 		void P2KLP();
 	UFUNCTION(BlueprintCallable)
@@ -132,6 +133,10 @@ protected:
 	// Has the player used HK
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Normals")
 	bool wasHkUsed;
+
+	// Has the player used HK
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+		bool wasMRUsed;
 
 	// boolean variable for if the model is flipped
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Model")
