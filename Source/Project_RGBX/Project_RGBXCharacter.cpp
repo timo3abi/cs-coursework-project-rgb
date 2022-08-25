@@ -54,6 +54,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	scale = FVector(0.0f, 0.0f, 0.0f);
 
 	canMove = false;
+	isCrouched = false;
 
 	isFlipped = false;
 	hitLanded = false;
@@ -80,8 +81,10 @@ void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 		if (gameMode->player1==this)
 		{
 			// set up gameplay key bindings
-			PlayerInputComponent->BindAction("Jump1", IE_Pressed, this, &ACharacter::Jump);
-			PlayerInputComponent->BindAction("Jump1", IE_Released, this, &ACharacter::StopJumping);
+			PlayerInputComponent->BindAction("Jump1", IE_Pressed, this, &AProject_RGBXCharacter::Jump);
+			PlayerInputComponent->BindAction("Jump1", IE_Released, this, &AProject_RGBXCharacter::StopJumping);
+			PlayerInputComponent->BindAction("CrouchP1", IE_Released, this, &AProject_RGBXCharacter::StartCrouching);
+			PlayerInputComponent->BindAction("CrouchP1", IE_Released, this, &AProject_RGBXCharacter::StopCrouching);
 			PlayerInputComponent->BindAxis("MoveRightP1", this, &AProject_RGBXCharacter::MoveRight);
 
 			PlayerInputComponent->BindAction("LP1", IE_Pressed, this, &AProject_RGBXCharacter::StartLP);
@@ -90,15 +93,14 @@ void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 			PlayerInputComponent->BindAction("LK1", IE_Pressed, this, &AProject_RGBXCharacter::StartLK);
 			PlayerInputComponent->BindAction("MK1", IE_Pressed, this, &AProject_RGBXCharacter::StartMK);
 			PlayerInputComponent->BindAction("HK1", IE_Pressed, this, &AProject_RGBXCharacter::StartHK);
-
-			PlayerInputComponent->BindTouch(IE_Pressed, this, &AProject_RGBXCharacter::TouchStarted);
-			PlayerInputComponent->BindTouch(IE_Released, this, &AProject_RGBXCharacter::TouchStopped);
 		}
 		else
 		{
 			// set up gameplay key bindings
-			PlayerInputComponent->BindAction("Jump2", IE_Pressed, this, &ACharacter::Jump);
-			PlayerInputComponent->BindAction("Jump2", IE_Released, this, &ACharacter::StopJumping);
+			PlayerInputComponent->BindAction("Jump2", IE_Pressed, this, &AProject_RGBXCharacter::Jump);
+			PlayerInputComponent->BindAction("Jump2", IE_Released, this, &AProject_RGBXCharacter::StopJumping);
+			PlayerInputComponent->BindAction("CrouchP2", IE_Released, this, &AProject_RGBXCharacter::StartCrouching);
+			PlayerInputComponent->BindAction("CrouchP2", IE_Released, this, &AProject_RGBXCharacter::StopCrouching);
 			PlayerInputComponent->BindAxis("MoveRightP2", this, &AProject_RGBXCharacter::MoveRight);
 
 			PlayerInputComponent->BindAction("LP2", IE_Pressed, this, &AProject_RGBXCharacter::StartLP);
@@ -114,56 +116,79 @@ void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 // when the character moves fwds/bwds the enum is set accordingly meaning we can script blueprint for directional input functionality
 void AProject_RGBXCharacter::MoveRight(float Value)
 {
-	if (!isFlipped)
+	if (canMove && !isCrouched)
 	{
-		if (Value > 0.20f)
+		if (directionalInput != EDirectionalInput::VE_Jumping)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
-			directionalInput = EDirectionalInput::VE_MovingLeft;
-		}
-		else if (Value < -0.20f)
-		{
-			directionalInput = EDirectionalInput::VE_MovingRight;
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
-			directionalInput = EDirectionalInput::VE_Default;
+			if (!isFlipped)
+			{
+				if (Value > 0.20f)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
+					directionalInput = EDirectionalInput::VE_MovingLeft;
+				}
+				else if (Value < -0.20f)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
+					directionalInput = EDirectionalInput::VE_MovingRight;
+				}
+				else
+				{
+					directionalInput = EDirectionalInput::VE_Default;
+				}
+				AddMovementInput(FVector(0.f, -1.f, 0.f), Value);
+			}
+			// if the character ends up being flipped the the directional inputs must also be flipped
+			else if (isFlipped)
+			{
+				if (Value > 0.20f)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
+					directionalInput = EDirectionalInput::VE_MovingRight;
+				}
+				else if (Value < -0.20f)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
+					directionalInput = EDirectionalInput::VE_MovingLeft;
+				}
+				else
+				{
+					directionalInput = EDirectionalInput::VE_Default;
+				}
+				AddMovementInput(FVector(0.f, -1.f, 0.f), Value);
+			}
+
 		}
 	}
-	// if the character ends up being flipped the the directional inputs must also be flipped
-	else if (isFlipped)
-	{
-		if (Value > 0.20f)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
-			directionalInput = EDirectionalInput::VE_MovingRight;
-		}
-		else if (Value < -0.20f)
-		{
-			directionalInput = EDirectionalInput::VE_MovingLeft;
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
-			directionalInput = EDirectionalInput::VE_Default;
-		}
-	}
-	// add movement in that direction
-	AddMovementInput(FVector(0.f, -1.f, 0.f), Value);
 }
 
-void AProject_RGBXCharacter::TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location)
+void AProject_RGBXCharacter::Jump()
 {
-	
-	Jump();
+	ACharacter::Jump();
+	directionalInput = EDirectionalInput::VE_Jumping;
 }
 
-void AProject_RGBXCharacter::TouchStopped(const ETouchIndex::Type FingerIndex, const FVector Location)
+void AProject_RGBXCharacter::StopJumping()
 {
-	StopJumping();
+	ACharacter::StopJumping();
 }
 
+void AProject_RGBXCharacter::Landed(const FHitResult& Hit)
+{
+	directionalInput = EDirectionalInput::VE_Default;
+}
+
+void AProject_RGBXCharacter::StartCrouching()
+{
+	isCrouched = true;
+	directionalInput = EDirectionalInput::VE_Crouching;
+}
+
+void AProject_RGBXCharacter::StopCrouching()
+{
+	isCrouched = false;
+	directionalInput = EDirectionalInput::VE_Default;
+}
 
 void AProject_RGBXCharacter::StartLP()
 {
@@ -241,6 +266,16 @@ void AProject_RGBXCharacter::P2KJump()
 void AProject_RGBXCharacter::P2KStopJumping()
 {
 	StopJumping();
+}
+
+void AProject_RGBXCharacter::P2KCrouch()
+{
+	StartCrouching();
+}
+
+void AProject_RGBXCharacter::P2KStopCrouching()
+{
+	StopCrouching();
 }
 
 void AProject_RGBXCharacter::P2KMoveRight(float _value)

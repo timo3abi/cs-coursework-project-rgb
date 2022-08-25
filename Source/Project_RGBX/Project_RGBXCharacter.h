@@ -14,7 +14,8 @@ enum class EDirectionalInput : uint8
 	VE_Default			UMETA(DisplayName = "STATIONARY"),
 	VE_MovingRight		UMETA(DisplayName = "MOVING_RIGHT"),
 	VE_MovingLeft		UMETA(DisplayName = "MOVING_LEFT"),
-	VE_Jumping			UMETA(DisplayName = "JUMPING")
+	VE_Jumping			UMETA(DisplayName = "JUMPING"),
+	VE_Crouching		UMETA(DisplayName = "Crouching")
 };
 
 UCLASS(config=Game)
@@ -51,6 +52,11 @@ class AProject_RGBXCharacter : public ACharacter
 		void P2KHK();
 
 	UFUNCTION(BlueprintCallable)
+		void P2KCrouch();
+	UFUNCTION(BlueprintCallable)
+		void P2KStopCrouching();
+
+	UFUNCTION(BlueprintCallable)
 		void P2KJump();
 	UFUNCTION(BlueprintCallable)
 		void P2KStopJumping();
@@ -63,10 +69,10 @@ protected:
 	void MoveRight(float Value);
 
 	/** Handle touch inputs. */
-	void TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location);
+	//void TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location);
 
 	/** Handle touch stop event. */
-	void TouchStopped(const ETouchIndex::Type FingerIndex, const FVector Location);
+	//void TouchStopped(const ETouchIndex::Type FingerIndex, const FVector Location);
 
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
@@ -74,15 +80,15 @@ protected:
 
 	virtual void Tick(float DeltaTime) override;
 
-	//virtual void Jump() override;
-	//virtual void StopJumping() override;
-	//virtual void Landed(const FHitResult& Hit) override;
+	virtual void Jump() override;
+	virtual void StopJumping() override;
+	virtual void Landed(const FHitResult& Hit) override;
 
-	//UFUNCTION(BlueprintCallable)
-	//void StartCrouching();
+	UFUNCTION(BlueprintCallable)
+	void StartCrouching();
 
-	//UFUNCTION(BlueprintCallable)
-	//void StopCrouching();
+	UFUNCTION(BlueprintCallable)
+	void StopCrouching();
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
@@ -145,8 +151,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	bool canMove;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	bool isCrouched;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Controller")
-	bool is2Pcontroller;
+	bool is2PController;
 
 public:
 	AProject_RGBXCharacter();
