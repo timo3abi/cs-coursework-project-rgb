@@ -128,11 +128,11 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 			{
 				if (Value > 0.20f)
 				{
-					directionalInput = EDirectionalInput::VE_MovingLeft;
+					directionalInput = EDirectionalInput::VE_MovingBWD;
 				}
 				else if (Value < -0.20f)
 				{
-					directionalInput = EDirectionalInput::VE_MovingRight;
+					directionalInput = EDirectionalInput::VE_MovingFWD;
 				}
 				else// if (Value == 0.0f)
 				{
@@ -146,11 +146,11 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 			{
 				if (Value > 0.20f)
 				{
-					directionalInput = EDirectionalInput::VE_MovingRight;
+					directionalInput = EDirectionalInput::VE_MovingFWD;
 				}
 				else if (Value < -0.20f)
 				{
-					directionalInput = EDirectionalInput::VE_MovingLeft;
+					directionalInput = EDirectionalInput::VE_MovingBWD;
 				}
 				else// if (Value == 0.0f)
 				{

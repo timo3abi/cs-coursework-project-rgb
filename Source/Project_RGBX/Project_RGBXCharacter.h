@@ -12,10 +12,13 @@ UENUM(BlueprintType)
 enum class EDirectionalInput : uint8
 {
 	VE_Default			UMETA(DisplayName = "STATIONARY"),
-	VE_MovingRight		UMETA(DisplayName = "MOVING_RIGHT"),
-	VE_MovingLeft		UMETA(DisplayName = "MOVING_LEFT"),
+	VE_MovingFWD		UMETA(DisplayName = "MOVING_FWD"),
+	VE_MovingBWD		UMETA(DisplayName = "MOVING_BWD"),
 	VE_Jumping			UMETA(DisplayName = "JUMPING"),
-	VE_Crouching		UMETA(DisplayName = "Crouching")
+	VE_Crouching		UMETA(DisplayName = "CROUCHING"),
+	VE_Blocking			UMETA(DisplayName = "BLOCKING"),
+	VE_HitStunned		UMETA(DisplayName = "IN_HIT_STUN"),
+	VE_BlockStunned		UMETA(DisplayName = "IN_BLOCK_STUN")
 };
 
 UCLASS(config=Game)

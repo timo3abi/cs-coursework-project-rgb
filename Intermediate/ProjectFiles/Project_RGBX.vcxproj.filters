@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\Project_RGBX.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{6E3012C1-7B6E-4264-8488-DB236F8A5CAB}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\Project_RGBX.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\Project_RGBXEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\.gitattributes" />
+    <None Include="..\..\.gitignore" />
+    <None Include="..\..\Flowcharts" />
+    <None Include="..\..\Project_RGBX.png" />
+    <None Include="..\..\PROJECT_RGBXGAMEMODE.ipch" />
+    <None Include="..\..\README.md" />
+    <Filter Include="Config">
+      <UniqueIdentifier>{F3D1CD31-5FBB-4E2F-AD71-B2C2B89C9010}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\Project_RGBX">
+      <UniqueIdentifier>{4D668536-6F3C-4BF0-83C2-C70B581CD69E}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\Project_RGBX\BaseGameInstance.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\BaseGameInstance.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Project_RGBX\BasePlayerController.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\BasePlayerController.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Project_RGBX\CHARGE.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\CHARGE.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Project_RGBX\GRAPPLER.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\GRAPPLER.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Project_RGBX\HitboxActor.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\HitboxActor.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\Project_RGBX\Project_RGBX.Build.cs">
+      <Filter>Source\Project_RGBX</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\Project_RGBX\Project_RGBX.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\Project_RGBX.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Project_RGBX\Project_RGBXCharacter.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\Project_RGBXCharacter.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Project_RGBX\Project_RGBXGameMode.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\Project_RGBXGameMode.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Project_RGBX\REKKA.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\REKKA.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Project_RGBX\RUSHDOWN.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\RUSHDOWN.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Project_RGBX\SHOTO.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\SHOTO.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Project_RGBX\ZONER.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\ZONER.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
