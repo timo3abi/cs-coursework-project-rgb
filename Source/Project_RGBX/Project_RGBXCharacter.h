@@ -9,7 +9,7 @@
 // So that We can flag directional inputs alongside attacks
 
 UENUM(BlueprintType)
-enum class EDirectionalInput : uint8
+enum class ECharacterState : uint8
 {
 	VE_Default			UMETA(DisplayName = "STATIONARY"),
 	VE_MovingFWD		UMETA(DisplayName = "MOVING_FWD"),
@@ -19,6 +19,15 @@ enum class EDirectionalInput : uint8
 	VE_Blocking			UMETA(DisplayName = "BLOCKING"),
 	VE_HitStunned		UMETA(DisplayName = "IN_HIT_STUN"),
 	VE_BlockStunned		UMETA(DisplayName = "IN_BLOCK_STUN")
+};
+
+UENUM(BlueprintType)
+enum class EAttackState : uint8
+{
+	VE_Default			UMETA(DisplayName = "NEUTRAL"),
+	VE_InStartup		UMETA(DisplayName = "STARTUP"),
+	VE_Active			UMETA(DisplayName = "ACTIVE"),
+	VE_Recovery			UMETA(DisplayName = "RECOVERY")
 };
 
 UCLASS(config=Game)
@@ -40,7 +49,6 @@ class AProject_RGBXCharacter : public ACharacter
 	void StartLK();
 	void StartMK();
 	void StartHK();
-
 
 	UFUNCTION(BlueprintCallable)
 		void P2KLP();
@@ -100,18 +108,27 @@ protected:
 
 	// How the player takes damage
 	UFUNCTION(BlueprintCallable)
-	void TakeDamage(float _damageAmount);
+	void TakeDamage(float _damageAmount,float _stunTime);
+
+	void BeginStun();
+
+	void EndStun();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player References")
 	AProject_RGBXCharacter * otherFighter;
 
 	// direction the character is moving. instance of enum declared above
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
-	EDirectionalInput directionalInput;
+	ECharacterState characterState;
 
 	// Current amount of health
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float playerHealth;
+
+	FTimerHandle stunTimerHandle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	float stunTime;
 
 	// Has the player used LP
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Normals")

@@ -27,6 +27,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
 	float hitboxDamage;
 
+	//The amount of hitstun time
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		float hitstunTime;
+
+	//The amount of blockstun time
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		float blockstunTime;
+
 	//Hitbox type instancing. determining what type of hitbox it is, this property can be referenced in unreal
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
 	EHitboxEnum hitboxType;
@@ -34,6 +42,8 @@ public:
 	//Hitbox Location instancing. allowing for us to declare the location of the hitbox in unreal using blueprints
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
 	FVector hitboxLocation;
+
+
 
 protected:
 	// Called when the game starts or when spawned

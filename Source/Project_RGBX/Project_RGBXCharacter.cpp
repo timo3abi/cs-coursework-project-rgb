@@ -48,7 +48,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 
 	hurtbox = nullptr;
 
-	directionalInput = EDirectionalInput::VE_Default;
+	characterState = ECharacterState::VE_Default;
 
 	playerHealth = 1.00f;
 
@@ -60,6 +60,8 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	isFlipped = false;
 	hitLanded = false;
 	wasMRUsed = false;
+
+	stunTime = 0.0f;
 
 	wasLpUsed = false;
 	wasMpUsed = false;
@@ -122,22 +124,22 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 	if (canMove && !isCrouched)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
-		if (directionalInput != EDirectionalInput::VE_Jumping)
+		if (characterState != ECharacterState::VE_Jumping)
 		{
 			if (!isFlipped)
 			{
 				if (Value > 0.20f)
 				{
-					directionalInput = EDirectionalInput::VE_MovingBWD;
+					characterState = ECharacterState::VE_MovingBWD;
 				}
 				else if (Value < -0.20f)
 				{
-					directionalInput = EDirectionalInput::VE_MovingFWD;
+					characterState = ECharacterState::VE_MovingFWD;
 				}
 				else// if (Value == 0.0f)
 				{
 
-					directionalInput = EDirectionalInput::VE_Default;
+					characterState = ECharacterState::VE_Default;
 				}
 				AddMovementInput(FVector(0.f, -1.f, 0.f), Value);
 			}
@@ -146,15 +148,15 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 			{
 				if (Value > 0.20f)
 				{
-					directionalInput = EDirectionalInput::VE_MovingFWD;
+					characterState = ECharacterState::VE_MovingFWD;
 				}
 				else if (Value < -0.20f)
 				{
-					directionalInput = EDirectionalInput::VE_MovingBWD;
+					characterState = ECharacterState::VE_MovingBWD;
 				}
 				else// if (Value == 0.0f)
 				{
-					directionalInput = EDirectionalInput::VE_Default;
+					characterState = ECharacterState::VE_Default;
 				}
 				AddMovementInput(FVector(0.f, -1.f, 0.f), Value);
 			}
@@ -166,7 +168,7 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 void AProject_RGBXCharacter::Jump()
 {
 	ACharacter::Jump();
-	directionalInput = EDirectionalInput::VE_Jumping;
+	characterState = ECharacterState::VE_Jumping;
 	UE_LOG(LogTemp, Warning, TEXT("Jumping"));
 }
 
@@ -177,19 +179,19 @@ void AProject_RGBXCharacter::StopJumping()
 
 void AProject_RGBXCharacter::Landed(const FHitResult& Hit)
 {
-	directionalInput = EDirectionalInput::VE_Default;
+	characterState = ECharacterState::VE_Default;
 }
 
 void AProject_RGBXCharacter::StartCrouching()
 {
 	isCrouched = true;
-	directionalInput = EDirectionalInput::VE_Crouching;
+	characterState = ECharacterState::VE_Crouching;
 }
 
 void AProject_RGBXCharacter::StopCrouching()
 {
 	isCrouched = false;
-	//directionalInput = EDirectionalInput::VE_Default;
+	characterState = ECharacterState::VE_Default;
 }
 
 void AProject_RGBXCharacter::StartLP()
@@ -287,13 +289,20 @@ void AProject_RGBXCharacter::P2KMoveRight(float _value)
 
 
 
-void AProject_RGBXCharacter::TakeDamage(float _damageAmount)
+void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Taking %f points of damage"), _damageAmount);
 
 	playerHealth -= _damageAmount;
 
-	otherFighter->hitLanded = true;
+	characterState = ECharacterState::VE_HitStunned;
+	stunTime = _stunTime;
+	BeginStun();
+
+	if (otherFighter)
+	{
+		otherFighter->hitLanded = true;
+	}
 
 	if (playerHealth < 0.00f)
 	{
@@ -301,10 +310,26 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount)
 	}
 }
 
+void AProject_RGBXCharacter::BeginStun()
+{
+	canMove = false;
+	GetWorld()->GetTimerManager().SetTimer(stunTimerHandle, this, &AProject_RGBXCharacter::EndStun, stunTime, false);
+}
+
+void AProject_RGBXCharacter::EndStun()
+{
+	characterState = ECharacterState::VE_Default;
+	canMove = true;
+}
+
+
+
 // the tick function is called every frame of the game session
 void AProject_RGBXCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (characterState != ECharacterState::VE_Jumping)
 	{
 		if (otherFighter)
 		{
