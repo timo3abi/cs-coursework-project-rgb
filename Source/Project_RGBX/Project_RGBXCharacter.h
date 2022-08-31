@@ -102,13 +102,21 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void StopCrouching();
 
+	UFUNCTION(BlueprintCallable)
+	void StartBlocking();
 
+	UFUNCTION(BlueprintCallable)
+	void StopBlocking();
+	
+	UFUNCTION(BlueprintCallable)
+	void ProximityHitboxCollision();  
+	  
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
 		AActor* hurtbox;
 
 	// How the player takes damage
 	UFUNCTION(BlueprintCallable)
-	void TakeDamage(float _damageAmount,float _stunTime);
+	void TakeDamage(float _damageAmount,float _stunTime, float _blockstunTime);
 
 	void BeginStun();
 

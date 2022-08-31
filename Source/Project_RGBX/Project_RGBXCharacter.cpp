@@ -121,7 +121,7 @@ void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 void AProject_RGBXCharacter::MoveRight(float Value)
 {
 	wasMRUsed = true;
-	if (canMove && !isCrouched)
+	if (canMove && !isCrouched && characterState != ECharacterState::VE_Blocking)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
 		if (characterState != ECharacterState::VE_Jumping)
@@ -131,6 +131,7 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 				if (Value > 0.20f)
 				{
 					characterState = ECharacterState::VE_MovingBWD;
+					
 				}
 				else if (Value < -0.20f)
 				{
@@ -153,6 +154,7 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 				else if (Value < -0.20f)
 				{
 					characterState = ECharacterState::VE_MovingBWD;
+					
 				}
 				else// if (Value == 0.0f)
 				{
@@ -185,13 +187,25 @@ void AProject_RGBXCharacter::Landed(const FHitResult& Hit)
 void AProject_RGBXCharacter::StartCrouching()
 {
 	isCrouched = true;
+	canMove = false;
 	characterState = ECharacterState::VE_Crouching;
 }
 
 void AProject_RGBXCharacter::StopCrouching()
 {
 	isCrouched = false;
+	canMove = true;
 	characterState = ECharacterState::VE_Default;
+}
+
+void AProject_RGBXCharacter::StartBlocking()
+{
+	characterState = ECharacterState::VE_Blocking;
+}
+
+void AProject_RGBXCharacter::StopBlocking()
+{
+	characterState = ECharacterState::VE_Blocking;
 }
 
 void AProject_RGBXCharacter::StartLP()
@@ -287,21 +301,56 @@ void AProject_RGBXCharacter::P2KMoveRight(float _value)
 	MoveRight( _value);
 }
 
-
-
-void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime)
+void AProject_RGBXCharacter::ProximityHitboxCollision()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Taking %f points of damage"), _damageAmount);
-
-	playerHealth -= _damageAmount;
-
-	characterState = ECharacterState::VE_HitStunned;
-	stunTime = _stunTime;
-	BeginStun();
-
-	if (otherFighter)
+	UE_LOG(LogTemp, Warning, TEXT("called"));
+	if ((characterState == ECharacterState::VE_MovingBWD && !isFlipped) || (characterState == ECharacterState::VE_MovingBWD && isFlipped))
 	{
-		otherFighter->hitLanded = true;
+		UE_LOG(LogTemp, Warning, TEXT("Auto-blocking"));
+		characterState = ECharacterState::VE_Blocking;
+	}
+}
+
+void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, float _blockstunTime)
+{
+	if (characterState != ECharacterState::VE_Blocking)
+	{
+
+		UE_LOG(LogTemp, Warning, TEXT("Taking %f points of damage"), _damageAmount);
+		playerHealth -= _damageAmount;
+
+
+		stunTime = _stunTime;
+		if (stunTime > 0.0f)
+		{		
+		characterState = ECharacterState::VE_HitStunned;
+		BeginStun();
+		}
+
+
+		if (otherFighter)
+		{
+			otherFighter->hitLanded = true;
+		}
+	}
+	else
+	{
+		float chipDamage = _damageAmount * 0.2f;
+		UE_LOG(LogTemp, Warning, TEXT("Taking %f points of chip damage"), chipDamage);
+		playerHealth -= chipDamage;
+
+		stunTime = _blockstunTime;
+		if (stunTime > 0.0f)
+		{
+			BeginStun();
+
+		}
+
+		else
+		{
+			characterState = ECharacterState::VE_Default;
+		}
+
 	}
 
 	if (playerHealth < 0.00f)
