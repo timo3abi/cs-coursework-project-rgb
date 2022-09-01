@@ -311,7 +311,7 @@ void AProject_RGBXCharacter::ProximityHitboxCollision()
 	}
 }
 
-void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, float _blockstunTime)
+void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, float _blockstunTime, float _knockbackDistance)
 {
 	if (characterState != ECharacterState::VE_Blocking)
 	{
@@ -331,7 +331,9 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, fl
 		if (otherFighter)
 		{
 			otherFighter->hitLanded = true;
+			otherFighter->KnockBack(_knockbackDistance, false);
 		}
+		KnockBack(_knockbackDistance, false);
 	}
 	else
 	{
@@ -351,11 +353,44 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, fl
 			characterState = ECharacterState::VE_Default;
 		}
 
+		if (otherFighter)
+		{
+			otherFighter->hitLanded = false;
+			otherFighter->KnockBack(_knockbackDistance, false);
+		}
+		KnockBack(_knockbackDistance, true);
 	}
 
 	if (playerHealth < 0.00f)
 	{
 		playerHealth = 0.00f;
+	}
+}
+
+void AProject_RGBXCharacter::KnockBack(float _knockbackDistance, bool _isBlocking)
+{
+	if (_isBlocking)
+	{
+		if (isFlipped)
+		{
+			// inbuilt unreal function that applies a force to an object of the character class
+			LaunchCharacter(FVector(0.0f, -_knockbackDistance * 2.0f, 0.0f), false, false);
+		}
+		else
+		{
+			LaunchCharacter(FVector(0.0f, _knockbackDistance * 2.0f, 0.0f), false, false);
+		}
+	}
+	else
+	{
+			if (isFlipped)
+			{
+				LaunchCharacter(FVector(0.0f, -_knockbackDistance, 0.0f), false, false);
+			}
+			else
+			{
+				LaunchCharacter(FVector(0.0f, _knockbackDistance, 0.0f), false, false);
+			}
 	}
 }
 
@@ -367,8 +402,8 @@ void AProject_RGBXCharacter::BeginStun()
 
 void AProject_RGBXCharacter::EndStun()
 {
-	characterState = ECharacterState::VE_Default;
 	canMove = true;
+	characterState = ECharacterState::VE_Default;
 }
 
 

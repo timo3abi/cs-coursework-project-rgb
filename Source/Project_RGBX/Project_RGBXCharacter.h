@@ -14,10 +14,13 @@ enum class ECharacterState : uint8
 	VE_Default			UMETA(DisplayName = "STATIONARY"),
 	VE_MovingFWD		UMETA(DisplayName = "MOVING_FWD"),
 	VE_MovingBWD		UMETA(DisplayName = "MOVING_BWD"),
+	VE_DashingFWD		UMETA(DisplayName = "DASHING_FWD"),
+	VE_DashingBWD		UMETA(DisplayName = "DASHING_BWD"),
 	VE_Jumping			UMETA(DisplayName = "JUMPING"),
 	VE_Crouching		UMETA(DisplayName = "CROUCHING"),
 	VE_Blocking			UMETA(DisplayName = "BLOCKING"),
 	VE_HitStunned		UMETA(DisplayName = "IN_HIT_STUN"),
+	VE_Launched			UMETA(DisplayName = "LAUNCHED"),
 	VE_BlockStunned		UMETA(DisplayName = "IN_BLOCK_STUN")
 };
 
@@ -116,11 +119,13 @@ protected:
 
 	// How the player takes damage
 	UFUNCTION(BlueprintCallable)
-	void TakeDamage(float _damageAmount,float _stunTime, float _blockstunTime);
+	void TakeDamage(float _damageAmount,float _stunTime, float _blockstunTime,float _knockbackDistance );
 
 	void BeginStun();
 
 	void EndStun();
+
+	void KnockBack(float _knockbackDistance, bool _isBlocking);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player References")
 	AProject_RGBXCharacter * otherFighter;

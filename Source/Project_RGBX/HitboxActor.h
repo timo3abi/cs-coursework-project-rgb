@@ -27,6 +27,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
 	float hitboxDamage;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+	float pushbackDistance;
+
 	//The amount of hitstun time
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
 		float hitstunTime;
