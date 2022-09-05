@@ -1,1 +1,43 @@
-<mxfile host="app.diagrams.net" modified="2022-09-05T10:59:32.388Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36" version="20.2.8" etag="1EZpVKPpkF8e37bmSNeY" type="github"><diagram id="vySNwAvWiOzTJfeX0lxU">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2022-09-05T11:04:47.166Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36" etag="5acOyeboYmtzXz1r95Ti" version="20.2.8" type="github">
+  <diagram id="vySNwAvWiOzTJfeX0lxU" name="Page-1">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yU3qtd3tmZakOzzAz0hu-1" value="Idle" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="640" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yU3qtd3tmZakOzzAz0hu-3" value="Dash FWD" style="ellipse;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry y="640" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yU3qtd3tmZakOzzAz0hu-5" value="" style="ellipse;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="480" y="960" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yU3qtd3tmZakOzzAz0hu-6" value="" style="ellipse;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="250" y="970" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yU3qtd3tmZakOzzAz0hu-7" value="" style="ellipse;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="200" y="480" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yU3qtd3tmZakOzzAz0hu-8" value="Dash FWD" style="ellipse;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="800" y="640" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yU3qtd3tmZakOzzAz0hu-9" value="Walk BWD" style="ellipse;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="200" y="680" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yU3qtd3tmZakOzzAz0hu-10" value="Walk FWD" style="ellipse;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="600" y="670" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yU3qtd3tmZakOzzAz0hu-11" value="Crouch" style="ellipse;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="400" y="840" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yU3qtd3tmZakOzzAz0hu-12" value="" style="ellipse;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="600" y="480" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yU3qtd3tmZakOzzAz0hu-13" value="Jump" style="ellipse;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="400" y="440" width="80" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
