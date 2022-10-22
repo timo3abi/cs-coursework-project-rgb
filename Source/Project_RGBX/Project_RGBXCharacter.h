@@ -119,13 +119,13 @@ protected:
 
 	// How the player takes damage
 	UFUNCTION(BlueprintCallable)
-	void TakeDamage(float _damageAmount,float _stunTime, float _blockstunTime,float _knockbackDistance );
+	void TakeDamage(float _damageAmount,float _stunTime, float _blockstunTime,float _knockbackDistance, float _launchAmount );
 
 	void BeginStun();
 
 	void EndStun();
 
-	void KnockBack(float _knockbackDistance, bool _isBlocking);
+	void KnockBack(float _knockbackDistance, bool _isBlocking, float _launchAmount);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player References")
 	AProject_RGBXCharacter * otherFighter;
@@ -142,6 +142,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	float stunTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+		float gravityScale;
 
 	// Has the player used LP
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Normals")

@@ -62,6 +62,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	wasMRUsed = false;
 
 	stunTime = 0.0f;
+	gravityScale = GetCharacterMovement()->GravityScale;
 
 	wasLpUsed = false;
 	wasMpUsed = false;
@@ -121,10 +122,10 @@ void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 void AProject_RGBXCharacter::MoveRight(float Value)
 {
 	wasMRUsed = true;
-	if (canMove && !isCrouched && characterState != ECharacterState::VE_Blocking)
+	if (canMove && !isCrouched && characterState != ECharacterState::VE_Blocking && characterState != ECharacterState::VE_Crouching)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
-		if (characterState != ECharacterState::VE_Jumping)
+		if (characterState != ECharacterState::VE_Jumping && characterState != ECharacterState::VE_Launched)
 		{
 			if (!isFlipped)
 			{
@@ -181,7 +182,11 @@ void AProject_RGBXCharacter::StopJumping()
 
 void AProject_RGBXCharacter::Landed(const FHitResult& Hit)
 {
-	characterState = ECharacterState::VE_Default;
+	if (characterState == ECharacterState::VE_Launched || characterState == ECharacterState::VE_Jumping)
+	{
+		GetCharacterMovement()->GravityScale = gravityScale;
+		characterState = ECharacterState::VE_Default;
+	}
 }
 
 void AProject_RGBXCharacter::StartCrouching()
@@ -311,7 +316,7 @@ void AProject_RGBXCharacter::ProximityHitboxCollision()
 	}
 }
 
-void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, float _blockstunTime, float _knockbackDistance)
+void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, float _blockstunTime, float _knockbackDistance, float _launchAmount)
 {
 	if (characterState != ECharacterState::VE_Blocking)
 	{
@@ -331,9 +336,9 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, fl
 		if (otherFighter)
 		{
 			otherFighter->hitLanded = true;
-			otherFighter->KnockBack(_knockbackDistance, false);
+			otherFighter->KnockBack(_knockbackDistance, false,0.0f);
 		}
-		KnockBack(_knockbackDistance, false);
+		KnockBack(_knockbackDistance, false, _launchAmount);
 	}
 	else
 	{
@@ -356,9 +361,9 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, fl
 		if (otherFighter)
 		{
 			otherFighter->hitLanded = false;
-			otherFighter->KnockBack(_knockbackDistance, false);
+			otherFighter->KnockBack(_knockbackDistance, false,0.0f);
 		}
-		KnockBack(_knockbackDistance, true);
+		KnockBack(_knockbackDistance, true, 0.0f);
 	}
 
 	if (playerHealth < 0.00f)
@@ -367,7 +372,7 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, fl
 	}
 }
 
-void AProject_RGBXCharacter::KnockBack(float _knockbackDistance, bool _isBlocking)
+void AProject_RGBXCharacter::KnockBack(float _knockbackDistance, bool _isBlocking, float _launchAmount)
 {
 	if (_isBlocking)
 	{
@@ -383,14 +388,19 @@ void AProject_RGBXCharacter::KnockBack(float _knockbackDistance, bool _isBlockin
 	}
 	else
 	{
-			if (isFlipped)
-			{
-				LaunchCharacter(FVector(0.0f, -_knockbackDistance, 0.0f), false, false);
-			}
-			else
-			{
-				LaunchCharacter(FVector(0.0f, _knockbackDistance, 0.0f), false, false);
-			}
+		if (_launchAmount > 0.0f)
+		{
+			GetCharacterMovement()->GravityScale *= 0.7;
+			characterState = ECharacterState::VE_Launched;
+		}
+		if (isFlipped)
+		{
+			LaunchCharacter(FVector(0.0f, -_knockbackDistance, _launchAmount), false, false);
+		}
+		else
+		{
+			LaunchCharacter(FVector(0.0f, _knockbackDistance, _launchAmount), false, false);
+		}
 	}
 }
 
@@ -403,7 +413,10 @@ void AProject_RGBXCharacter::BeginStun()
 void AProject_RGBXCharacter::EndStun()
 {
 	canMove = true;
-	characterState = ECharacterState::VE_Default;
+	if (characterState != ECharacterState::VE_Launched)
+	{
+		characterState = ECharacterState::VE_Default;
+	}
 }
 
 
