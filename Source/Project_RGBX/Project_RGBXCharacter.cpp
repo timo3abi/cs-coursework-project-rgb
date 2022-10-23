@@ -51,6 +51,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	characterState = ECharacterState::VE_Default;
 
 	playerHealth = 1.00f;
+	chroMeter = 0.00f;
 
 	scale = FVector(0.0f, 0.0f, 0.0f);
 
@@ -323,6 +324,7 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, fl
 
 		UE_LOG(LogTemp, Warning, TEXT("Taking %f points of damage"), _damageAmount);
 		playerHealth -= _damageAmount;
+		chroMeter += _damageAmount * 0.60f;
 
 
 		stunTime = _stunTime;
@@ -337,6 +339,7 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, fl
 		{
 			otherFighter->hitLanded = true;
 			otherFighter->KnockBack(_knockbackDistance, false,0.0f);
+			otherFighter->chroMeter += _damageAmount * 0.30f;
 		}
 		KnockBack(_knockbackDistance, false, _launchAmount);
 	}
@@ -345,6 +348,7 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, fl
 		float chipDamage = _damageAmount * 0.2f;
 		UE_LOG(LogTemp, Warning, TEXT("Taking %f points of chip damage"), chipDamage);
 		playerHealth -= chipDamage;
+		chroMeter += _damageAmount * 0.80f;
 
 		stunTime = _blockstunTime;
 		if (stunTime > 0.0f)
@@ -362,6 +366,7 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, fl
 		{
 			otherFighter->hitLanded = false;
 			otherFighter->KnockBack(_knockbackDistance, false,0.0f);
+			otherFighter->chroMeter += _damageAmount * 0.50f;
 		}
 		KnockBack(_knockbackDistance, true, 0.0f);
 	}

@@ -138,6 +138,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float playerHealth;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Meter")
+	float chroMeter;
+
 	FTimerHandle stunTimerHandle;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
