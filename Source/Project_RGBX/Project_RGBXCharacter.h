@@ -33,6 +33,32 @@ enum class EAttackState : uint8
 	VE_Recovery			UMETA(DisplayName = "RECOVERY")
 };
 
+USTRUCT(BlueprintType)
+struct FInputData
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+		FString inputTag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+		float inputTime;
+};
+
+USTRUCT(BlueprintType)
+struct FCmd
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+		FString CMDTag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+		TArray<FString> CMDReqs;
+};
+
 UCLASS(config=Game)
 class AProject_RGBXCharacter : public ACharacter
 {
@@ -127,6 +153,23 @@ protected:
 
 	void KnockBack(float _knockbackDistance, bool _isBlocking, float _launchAmount);
 
+	UFUNCTION(BlueprintCallable)
+	void AddInput(FInputData _inputData);
+
+	UFUNCTION(BlueprintCallable)
+	void CheckInputStackForCMD();
+
+	UFUNCTION(BlueprintCallable)
+	void StartCMD(FString _CMDTag);
+
+	UFUNCTION(BlueprintCallable)
+	void RemoveInput();
+
+	FCmd demoCMD;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	TArray<FInputData> inputStack;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player References")
 	AProject_RGBXCharacter * otherFighter;
 
@@ -143,11 +186,16 @@ protected:
 
 	FTimerHandle stunTimerHandle;
 
+	FTimerHandle inputStackTimeHandle;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	float stunTime;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	float stackLife;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
-		float gravityScale;
+	float gravityScale;
 
 	// Has the player used LP
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Normals")
@@ -173,6 +221,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Normals")
 	bool wasHkUsed;
 
+	// Has the player used the Demo Commands
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Commands")
+	bool wasdemoCMD;
+
 	// Has the player used HK
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 		bool wasMRUsed;
@@ -191,6 +243,7 @@ protected:
 	// character model size
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Model")
 	FVector scale;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	bool canMove;

@@ -45,25 +45,14 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 
 
 	otherFighter = nullptr;
-
 	hurtbox = nullptr;
-
 	characterState = ECharacterState::VE_Default;
-
-	playerHealth = 1.00f;
-	chroMeter = 0.00f;
-
 	scale = FVector(0.0f, 0.0f, 0.0f);
-
-	canMove = false;
-	isCrouched = false;
-
-	isFlipped = false;
-	hitLanded = false;
-	wasMRUsed = false;
-
-	stunTime = 0.0f;
 	gravityScale = GetCharacterMovement()->GravityScale;
+	chroMeter = 0.00f;
+	stunTime = 0.0f;
+	stackLife = 1.0f;
+	playerHealth = 1.00f;
 
 	wasLpUsed = false;
 	wasMpUsed = false;
@@ -71,6 +60,20 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	wasLkUsed = false;
 	wasMkUsed = false;
 	wasHkUsed = false;
+
+
+	canMove = false;
+	isCrouched = false;
+	isFlipped = false;
+	hitLanded = false;
+	wasMRUsed = false;
+
+	demoCMD.CMDTag = "Demo Command";
+	demoCMD.CMDReqs.Add("1");
+	demoCMD.CMDReqs.Add("1");
+	demoCMD.CMDReqs.Add("2");
+	wasdemoCMD = false;
+
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -424,7 +427,62 @@ void AProject_RGBXCharacter::EndStun()
 	}
 }
 
+void AProject_RGBXCharacter::AddInput(FInputData _inputData)
+{
+	inputStack.Add(_inputData);
+	CheckInputStackForCMD();
+}
 
+void AProject_RGBXCharacter::CheckInputStackForCMD()
+{
+	int ValidOrderCount = 0;
+
+	for (int CMDinput = 0; CMDinput < demoCMD.CMDReqs.Num(); ++CMDinput)
+	{
+		for (int input = 0; input < inputStack.Num(); ++input)
+		{
+			if (input + ValidOrderCount < inputStack.Num())
+			{
+				if (inputStack[input + ValidOrderCount].inputTag.Compare(demoCMD.CMDReqs[CMDinput]) == 0)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Input added to CMD sequence"));
+					++ValidOrderCount;
+
+					if (ValidOrderCount == demoCMD.CMDReqs.Num())
+					{
+						StartCMD(demoCMD.CMDTag);
+					}
+
+					break;
+				}
+				else
+				{
+					UE_LOG(LogTemp, Warning, TEXT("CMD sequence broken"));
+					ValidOrderCount = 0;
+				}
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("CMD sequence incomplete"));
+				ValidOrderCount = 0;
+			}
+		}
+	}
+}
+
+void AProject_RGBXCharacter::StartCMD(FString _CMDtag)
+{
+	if (_CMDtag.Compare(demoCMD.CMDTag) == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Using CMD: &s."), *_CMDtag);
+		wasdemoCMD = true;
+	}
+}
+
+void AProject_RGBXCharacter::RemoveInput()
+{
+
+}
 
 // the tick function is called every frame of the game session
 void AProject_RGBXCharacter::Tick(float DeltaTime)
