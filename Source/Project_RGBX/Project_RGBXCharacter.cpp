@@ -68,11 +68,26 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	hitLanded = false;
 	wasMRUsed = false;
 
-	demoCMD.CMDTag = "Demo Command";
-	demoCMD.CMDReqs.Add("1");
-	demoCMD.CMDReqs.Add("1");
-	demoCMD.CMDReqs.Add("2");
-	wasdemoCMD = false;
+	FighterCmds.SetNum(3);
+
+	FighterCmds[0].CMDTag = "SDU";
+	FighterCmds[0].CMDReqs.Add("S");
+	FighterCmds[0].CMDReqs.Add("D");
+	FighterCmds[0].CMDReqs.Add("U");
+	FighterCmds[0].cmdUsed = false;
+
+	FighterCmds[1].CMDTag = "SWU";
+	FighterCmds[1].CMDReqs.Add("S");
+	FighterCmds[1].CMDReqs.Add("W");
+	FighterCmds[1].CMDReqs.Add("U");
+	FighterCmds[1].cmdUsed = false;
+
+	FighterCmds[2].CMDTag = "SAJ";
+	FighterCmds[2].CMDReqs.Add("S");
+	FighterCmds[2].CMDReqs.Add("A");
+	FighterCmds[2].CMDReqs.Add("J");
+	FighterCmds[2].cmdUsed = false;
+
 
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
@@ -128,7 +143,7 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 	wasMRUsed = true;
 	if (canMove && !isCrouched && characterState != ECharacterState::VE_Blocking && characterState != ECharacterState::VE_Crouching)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
+		//UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
 		if (characterState != ECharacterState::VE_Jumping && characterState != ECharacterState::VE_Launched)
 		{
 			if (!isFlipped)
@@ -341,7 +356,7 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, fl
 		if (otherFighter)
 		{
 			otherFighter->hitLanded = true;
-			otherFighter->KnockBack(_knockbackDistance, false,0.0f);
+			otherFighter->KnockBack(_knockbackDistance*0.5, false,0.0f);
 			otherFighter->chroMeter += _damageAmount * 0.30f;
 		}
 		KnockBack(_knockbackDistance, false, _launchAmount);
@@ -368,7 +383,7 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, fl
 		if (otherFighter)
 		{
 			otherFighter->hitLanded = false;
-			otherFighter->KnockBack(_knockbackDistance, false,0.0f);
+			otherFighter->KnockBack(_knockbackDistance*0.2, false,0.0f);
 			otherFighter->chroMeter += _damageAmount * 0.50f;
 		}
 		KnockBack(_knockbackDistance, true, 0.0f);
@@ -398,7 +413,7 @@ void AProject_RGBXCharacter::KnockBack(float _knockbackDistance, bool _isBlockin
 	{
 		if (_launchAmount > 0.0f)
 		{
-			GetCharacterMovement()->GravityScale *= 0.7;
+			GetCharacterMovement()->GravityScale *= 0.5;
 			characterState = ECharacterState::VE_Launched;
 		}
 		if (isFlipped)
@@ -437,34 +452,37 @@ void AProject_RGBXCharacter::CheckInputStackForCMD()
 {
 	int ValidOrderCount = 0;
 
-	for (int CMDinput = 0; CMDinput < demoCMD.CMDReqs.Num(); ++CMDinput)
+	for (auto thisCmd : FighterCmds)
 	{
-		for (int input = 0; input < inputStack.Num(); ++input)
+		for (int CMDinput = 0; CMDinput < thisCmd.CMDReqs.Num(); ++CMDinput)
 		{
-			if (input + ValidOrderCount < inputStack.Num())
+			for (int input = 0; input < inputStack.Num(); ++input)
 			{
-				if (inputStack[input + ValidOrderCount].inputTag.Compare(demoCMD.CMDReqs[CMDinput]) == 0)
+				if (input + ValidOrderCount < inputStack.Num())
 				{
-					UE_LOG(LogTemp, Warning, TEXT("Input added to CMD sequence"));
-					++ValidOrderCount;
-
-					if (ValidOrderCount == demoCMD.CMDReqs.Num())
+					if (inputStack[input + ValidOrderCount].inputTag.Compare(thisCmd.CMDReqs[CMDinput]) == 0)
 					{
-						StartCMD(demoCMD.CMDTag);
-					}
+						UE_LOG(LogTemp, Warning, TEXT("Input added to CMD sequence"));
+						++ValidOrderCount;
 
-					break;
+						if (ValidOrderCount == thisCmd.CMDReqs.Num())
+						{
+							StartCMD(thisCmd.CMDTag);
+						}
+
+						break;
+					}
+					else
+					{
+						UE_LOG(LogTemp, Warning, TEXT("CMD sequence broken"));
+						ValidOrderCount = 0;
+					}
 				}
 				else
 				{
-					UE_LOG(LogTemp, Warning, TEXT("CMD sequence broken"));
+					UE_LOG(LogTemp, Warning, TEXT("CMD sequence incomplete"));
 					ValidOrderCount = 0;
 				}
-			}
-			else
-			{
-				UE_LOG(LogTemp, Warning, TEXT("CMD sequence incomplete"));
-				ValidOrderCount = 0;
 			}
 		}
 	}
@@ -472,10 +490,13 @@ void AProject_RGBXCharacter::CheckInputStackForCMD()
 
 void AProject_RGBXCharacter::StartCMD(FString _CMDtag)
 {
-	if (_CMDtag.Compare(demoCMD.CMDTag) == 0)
+	for (int thisCmd = 0; thisCmd < FighterCmds.Num(); ++thisCmd)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Using CMD: &s."), *_CMDtag);
-		wasdemoCMD = true;
+		if (_CMDtag.Compare(FighterCmds[thisCmd].CMDTag) == 0)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Using CMD: &s."), *_CMDtag);
+			FighterCmds[thisCmd].cmdUsed = true;
+		}
 	}
 }
 

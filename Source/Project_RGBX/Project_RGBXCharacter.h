@@ -44,6 +44,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 		float inputTime;
+
+
 };
 
 USTRUCT(BlueprintType)
@@ -54,6 +56,9 @@ struct FCmd
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 		FString CMDTag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+		bool cmdUsed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 		TArray<FString> CMDReqs;
@@ -165,7 +170,8 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void RemoveInput();
 
-	FCmd demoCMD;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	TArray<FCmd> FighterCmds;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	TArray<FInputData> inputStack;
