@@ -170,6 +170,9 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void RemoveInput();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void AddInputIconToScreen(int _iconIndex, bool _toBeAdded = true);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	TArray<FCmd> FighterCmds;
 
@@ -257,8 +260,14 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	bool isCrouched;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input Stack")
+	bool isPlayer1;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Controller")
 	bool is2PController;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input Stack")
+	bool AxisInputReleased;
 
 public:
 	AProject_RGBXCharacter();

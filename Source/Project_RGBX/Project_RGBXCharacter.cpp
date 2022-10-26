@@ -61,6 +61,8 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	wasMkUsed = false;
 	wasHkUsed = false;
 
+	AxisInputReleased = true;
+	isPlayer1 = false;
 
 	canMove = false;
 	isCrouched = false;
@@ -94,6 +96,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
 
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -102,38 +105,44 @@ void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 {
 	if (auto gameMode = Cast<AProject_RGBXGameMode>(GetWorld()->GetAuthGameMode()))
 	{
-		if (gameMode->player1==this)
+		if (gameMode->player1 == this)
 		{
-			// set up gameplay key bindings
-			PlayerInputComponent->BindAction("Jump1", IE_Pressed, this, &AProject_RGBXCharacter::Jump);
-			PlayerInputComponent->BindAction("Jump1", IE_Released, this, &AProject_RGBXCharacter::StopJumping);
-			PlayerInputComponent->BindAction("CrouchP1", IE_Released, this, &AProject_RGBXCharacter::StartCrouching);
-			PlayerInputComponent->BindAction("CrouchP1", IE_Released, this, &AProject_RGBXCharacter::StopCrouching);
 			PlayerInputComponent->BindAxis("MoveRightP1", this, &AProject_RGBXCharacter::MoveRight);
-
-			PlayerInputComponent->BindAction("LP1", IE_Pressed, this, &AProject_RGBXCharacter::StartLP);
-			PlayerInputComponent->BindAction("MP1", IE_Pressed, this, &AProject_RGBXCharacter::StartMP);
-			PlayerInputComponent->BindAction("HP1", IE_Pressed, this, &AProject_RGBXCharacter::StartHP);
-			PlayerInputComponent->BindAction("LK1", IE_Pressed, this, &AProject_RGBXCharacter::StartLK);
-			PlayerInputComponent->BindAction("MK1", IE_Pressed, this, &AProject_RGBXCharacter::StartMK);
-			PlayerInputComponent->BindAction("HK1", IE_Pressed, this, &AProject_RGBXCharacter::StartHK);
+			isPlayer1 = true;
 		}
 		else
 		{
-			// set up gameplay key bindings
-			PlayerInputComponent->BindAction("Jump2", IE_Pressed, this, &AProject_RGBXCharacter::Jump);
-			PlayerInputComponent->BindAction("Jump2", IE_Released, this, &AProject_RGBXCharacter::StopJumping);
-			PlayerInputComponent->BindAction("CrouchP2", IE_Released, this, &AProject_RGBXCharacter::StartCrouching);
-			PlayerInputComponent->BindAction("CrouchP2", IE_Released, this, &AProject_RGBXCharacter::StopCrouching);
 			PlayerInputComponent->BindAxis("MoveRightP2", this, &AProject_RGBXCharacter::MoveRight);
-
-			PlayerInputComponent->BindAction("LP2", IE_Pressed, this, &AProject_RGBXCharacter::StartLP);
-			PlayerInputComponent->BindAction("MP2", IE_Pressed, this, &AProject_RGBXCharacter::StartMP);
-			PlayerInputComponent->BindAction("HP2", IE_Pressed, this, &AProject_RGBXCharacter::StartHP);
-			PlayerInputComponent->BindAction("LK2", IE_Pressed, this, &AProject_RGBXCharacter::StartLK);
-			PlayerInputComponent->BindAction("MK2", IE_Pressed, this, &AProject_RGBXCharacter::StartMK);
-			PlayerInputComponent->BindAction("HK2", IE_Pressed, this, &AProject_RGBXCharacter::StartHK);
+			isPlayer1 = false;
 		}
+
+		// set up gameplay key bindings
+		PlayerInputComponent->BindAction("Jump1", IE_Pressed, this, &AProject_RGBXCharacter::Jump);
+		PlayerInputComponent->BindAction("Jump1", IE_Released, this, &AProject_RGBXCharacter::StopJumping);
+		PlayerInputComponent->BindAction("CrouchP1", IE_Released, this, &AProject_RGBXCharacter::StartCrouching);
+		PlayerInputComponent->BindAction("CrouchP1", IE_Released, this, &AProject_RGBXCharacter::StopCrouching);
+
+		PlayerInputComponent->BindAction("LP1", IE_Pressed, this, &AProject_RGBXCharacter::StartLP);
+		PlayerInputComponent->BindAction("MP1", IE_Pressed, this, &AProject_RGBXCharacter::StartMP);
+		PlayerInputComponent->BindAction("HP1", IE_Pressed, this, &AProject_RGBXCharacter::StartHP);
+		PlayerInputComponent->BindAction("LK1", IE_Pressed, this, &AProject_RGBXCharacter::StartLK);
+		PlayerInputComponent->BindAction("MK1", IE_Pressed, this, &AProject_RGBXCharacter::StartMK);
+		PlayerInputComponent->BindAction("HK1", IE_Pressed, this, &AProject_RGBXCharacter::StartHK);
+		
+
+		// set up gameplay key bindings
+		PlayerInputComponent->BindAction("Jump2", IE_Pressed, this, &AProject_RGBXCharacter::Jump);
+		PlayerInputComponent->BindAction("Jump2", IE_Released, this, &AProject_RGBXCharacter::StopJumping);
+		PlayerInputComponent->BindAction("CrouchP2", IE_Released, this, &AProject_RGBXCharacter::StartCrouching);
+		PlayerInputComponent->BindAction("CrouchP2", IE_Released, this, &AProject_RGBXCharacter::StopCrouching);
+
+		PlayerInputComponent->BindAction("LP2", IE_Pressed, this, &AProject_RGBXCharacter::StartLP);
+		PlayerInputComponent->BindAction("MP2", IE_Pressed, this, &AProject_RGBXCharacter::StartMP);
+		PlayerInputComponent->BindAction("HP2", IE_Pressed, this, &AProject_RGBXCharacter::StartHP);
+		PlayerInputComponent->BindAction("LK2", IE_Pressed, this, &AProject_RGBXCharacter::StartLK);
+		PlayerInputComponent->BindAction("MK2", IE_Pressed, this, &AProject_RGBXCharacter::StartMK);
+		PlayerInputComponent->BindAction("HK2", IE_Pressed, this, &AProject_RGBXCharacter::StartHK);
+	
 	}
 }
 
@@ -148,50 +157,139 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 		{
 			if (!isFlipped)
 			{
-				if (Value > 0.20f)
+				if (Value > 0.10f)
 				{
 					characterState = ECharacterState::VE_MovingBWD;
-					
+					AddInputIconToScreen(11,AxisInputReleased);
+					AxisInputReleased = false;
 				}
-				else if (Value < -0.20f)
+				else if (Value < -0.10f)
 				{
 					characterState = ECharacterState::VE_MovingFWD;
+					AddInputIconToScreen(7, AxisInputReleased);
+					AxisInputReleased = false;
 				}
 				else// if (Value == 0.0f)
 				{
-
 					characterState = ECharacterState::VE_Default;
+					AxisInputReleased = true;
 				}
 				AddMovementInput(FVector(0.f, -1.f, 0.f), Value);
 			}
 			// if the character ends up being flipped the the directional inputs must also be flipped
 			else if (isFlipped)
 			{
-				if (Value > 0.20f)
+				if (Value > 0.10f)
 				{
 					characterState = ECharacterState::VE_MovingFWD;
+					AddInputIconToScreen(11, AxisInputReleased);
+					AxisInputReleased = false;
 				}
-				else if (Value < -0.20f)
+				else if (Value < -0.10f)
 				{
 					characterState = ECharacterState::VE_MovingBWD;
-					
+					AddInputIconToScreen(7,AxisInputReleased);
+					AxisInputReleased = false;
 				}
 				else// if (Value == 0.0f)
 				{
 					characterState = ECharacterState::VE_Default;
+					AxisInputReleased = true;
 				}
 				AddMovementInput(FVector(0.f, -1.f, 0.f), Value);
 			}
+			else if (canMove && characterState == ECharacterState::VE_Crouching)
+			{
+				if (!isFlipped)
+				{
+					if (Value > 0.10f)
+					{
+						AddInputIconToScreen(6, AxisInputReleased);
+						AxisInputReleased = false;
+					}
+					else if (Value < -0.10f)
+					{
+						AddInputIconToScreen(12, AxisInputReleased);
+						AxisInputReleased = false;
+					}
+					else// if (Value == 0.0f)
+					{
+						AxisInputReleased = true;
+					}
 
+				}
+				// if the character ends up being flipped the the directional inputs must also be flipped
+				else if (isFlipped)
+				{
+					if (Value > 0.10f)
+					{
+						AddInputIconToScreen(6, AxisInputReleased);
+						AxisInputReleased = false;
+					}
+					else if (Value < -0.10f)
+					{
+						AddInputIconToScreen(12, AxisInputReleased);
+						AxisInputReleased = false;
+					}
+					else// if (Value == 0.0f)
+					{
+						AxisInputReleased = true;
+					}
+
+				}
+			}
 		}
 	}
 }
 
 void AProject_RGBXCharacter::Jump()
 {
-	ACharacter::Jump();
-	characterState = ECharacterState::VE_Jumping;
-	UE_LOG(LogTemp, Warning, TEXT("Jumping"));
+	if (canMove)
+	{
+		if (isFlipped)
+		{
+
+
+			if (characterState == ECharacterState::VE_MovingBWD)
+			{
+				AddInputIconToScreen(8);
+			}
+
+			else if (characterState == ECharacterState::VE_MovingFWD)
+			{
+				AddInputIconToScreen(10);
+			}
+
+			else
+			{
+				AddInputIconToScreen(9);
+			}
+			ACharacter::Jump();
+			characterState = ECharacterState::VE_Jumping;
+			UE_LOG(LogTemp, Warning, TEXT("Jumping"));
+		}
+
+		else
+		{
+			if (characterState == ECharacterState::VE_MovingBWD)
+			{
+				AddInputIconToScreen(10);
+			}
+
+			else if (characterState == ECharacterState::VE_MovingFWD)
+			{
+				AddInputIconToScreen(8);
+			}
+
+			else
+			{
+				AddInputIconToScreen(9);
+			}
+			ACharacter::Jump();
+			characterState = ECharacterState::VE_Jumping;
+			UE_LOG(LogTemp, Warning, TEXT("Jumping"));
+		}
+	}
 }
 
 void AProject_RGBXCharacter::StopJumping()
@@ -213,6 +311,7 @@ void AProject_RGBXCharacter::StartCrouching()
 	isCrouched = true;
 	canMove = false;
 	characterState = ECharacterState::VE_Crouching;
+	AddInputIconToScreen(13);
 }
 
 void AProject_RGBXCharacter::StopCrouching()
@@ -236,18 +335,21 @@ void AProject_RGBXCharacter::StartLP()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Using LP"));
 	wasLpUsed = true;
+	AddInputIconToScreen(1);
 }
 
 void AProject_RGBXCharacter::StartMP()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Using MP"));
 	wasMpUsed = true;
+	AddInputIconToScreen(2);
 }
 
 void AProject_RGBXCharacter::StartHP()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Using HP"));
 	wasHpUsed = true;
+	AddInputIconToScreen(0);
 
 }
 
@@ -255,12 +357,14 @@ void AProject_RGBXCharacter::StartLK()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Using LK"));
 	wasLkUsed = true;
+	AddInputIconToScreen(4);
 }
 
 void AProject_RGBXCharacter::StartMK()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Using MK"))
 	wasMkUsed = true;
+	AddInputIconToScreen(3);
 
 }
 
@@ -268,6 +372,7 @@ void AProject_RGBXCharacter::StartHK()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Using HK"));
 	wasHkUsed = true;
+	AddInputIconToScreen(5);
 }
 
 void AProject_RGBXCharacter::P2KLP()
