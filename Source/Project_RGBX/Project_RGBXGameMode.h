@@ -22,6 +22,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player References")
 	AProject_RGBXCharacter* player2;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameMode Settings")
+		float roundLength;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameMode Settings")
+		int noOfRounds;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameMode Settings")
+		bool timerOn;
+
 };
 
 

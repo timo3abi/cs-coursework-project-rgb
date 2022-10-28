@@ -47,6 +47,8 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	otherFighter = nullptr;
 	hurtbox = nullptr;
 	characterState = ECharacterState::VE_Default;
+	WhatFighter = EFighterTag::VE_Gris;
+
 	scale = FVector(0.0f, 0.0f, 0.0f);
 	gravityScale = GetCharacterMovement()->GravityScale;
 	chroMeter = 0.00f;

@@ -3,3 +3,7 @@
 
 #include "SHOTO.h"
 
+ASHOTO::ASHOTO()
+{
+	WhatFighter = EFighterTag::VE_Gris;
+}

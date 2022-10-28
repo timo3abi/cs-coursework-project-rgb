@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BaseGameInstance.h"
 #include "GameFramework/Character.h"
 #include "Project_RGBXCharacter.generated.h"
 
@@ -183,8 +184,11 @@ protected:
 	AProject_RGBXCharacter * otherFighter;
 
 	// direction the character is moving. instance of enum declared above
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fighter Data")
 	ECharacterState characterState;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fighter Data")
+		EFighterTag WhatFighter;
 
 	// Current amount of health
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")

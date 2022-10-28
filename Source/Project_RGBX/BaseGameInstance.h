@@ -31,4 +31,15 @@ class PROJECT_RGBX_API UBaseGameInstance : public UGameInstance
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player References")
 	EFighterTag fighterTag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Instance Settings")
+		float roundLength;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Instance Settings")
+		int noOfRounds;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Instance Settings")
+		bool timerOn;
 };
+
+

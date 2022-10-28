@@ -13,5 +13,8 @@ UCLASS()
 class PROJECT_RGBX_API ASHOTO : public AProject_RGBXCharacter
 {
 	GENERATED_BODY()
+
+public:
+	ASHOTO();
 	
 };

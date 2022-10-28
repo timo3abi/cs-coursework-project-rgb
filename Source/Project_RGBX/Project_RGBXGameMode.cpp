@@ -13,6 +13,10 @@ AProject_RGBXGameMode::AProject_RGBXGameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 
+	noOfRounds = 3;
+	roundLength = 99;
+	timerOn = false;
+
 	player1 = nullptr;
 	player2 = nullptr;
 }
