@@ -169,7 +169,16 @@ protected:
 	void StartCMD(FString _CMDTag);
 
 	UFUNCTION(BlueprintCallable)
-	void RemoveInput();
+	void WinRound();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void RoundStartNotice();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void RoundEndNotice();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void UpdateRoundScore();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void AddInputIconToScreen(int _iconIndex, bool _toBeAdded = true);
@@ -272,6 +281,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input Stack")
 	bool AxisInputReleased;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+	bool WonRound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+	int RoundsWon;
 
 public:
 	AProject_RGBXCharacter();

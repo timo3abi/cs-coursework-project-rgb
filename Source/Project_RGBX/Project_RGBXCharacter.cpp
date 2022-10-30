@@ -66,6 +66,9 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	AxisInputReleased = true;
 	isPlayer1 = false;
 
+	RoundsWon = 0;
+	WonRound = false;
+
 	canMove = false;
 	isCrouched = false;
 	isFlipped = false;
@@ -607,9 +610,12 @@ void AProject_RGBXCharacter::StartCMD(FString _CMDtag)
 	}
 }
 
-void AProject_RGBXCharacter::RemoveInput()
+void AProject_RGBXCharacter::WinRound()
 {
-
+	otherFighter->WonRound = false;
+	++RoundsWon;
+	RoundEndNotice();
+	UpdateRoundScore();
 }
 
 // the tick function is called every frame of the game session
