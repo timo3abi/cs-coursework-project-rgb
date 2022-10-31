@@ -68,6 +68,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 
 	RoundsWon = 0;
 	WonRound = false;
+	lostRound = false;
 
 	canMove = false;
 	isCrouched = false;
@@ -447,6 +448,7 @@ void AProject_RGBXCharacter::ProximityHitboxCollision()
 
 void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, float _blockstunTime, float _knockbackDistance, float _launchAmount)
 {
+
 	if (characterState != ECharacterState::VE_Blocking)
 	{
 
@@ -612,7 +614,7 @@ void AProject_RGBXCharacter::StartCMD(FString _CMDtag)
 
 void AProject_RGBXCharacter::WinRound()
 {
-	otherFighter->WonRound = false;
+	otherFighter->lostRound = true;
 	++RoundsWon;
 	RoundEndNotice();
 	UpdateRoundScore();

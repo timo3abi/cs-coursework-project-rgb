@@ -286,6 +286,9 @@ protected:
 	bool WonRound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+		bool lostRound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
 	int RoundsWon;
 
 public:
