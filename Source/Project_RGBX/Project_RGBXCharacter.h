@@ -171,6 +171,9 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void WinRound();
 
+	UFUNCTION(BlueprintCallable)
+	void WinMatch();
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void RoundStartNotice();
 
@@ -287,6 +290,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
 		bool lostRound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+		bool wonTheMatch;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
 	int RoundsWon;

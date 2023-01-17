@@ -69,6 +69,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	RoundsWon = 0;
 	WonRound = false;
 	lostRound = false;
+	wonTheMatch = false;
 
 	canMove = false;
 	isCrouched = false;
@@ -618,6 +619,12 @@ void AProject_RGBXCharacter::WinRound()
 	++RoundsWon;
 	RoundEndNotice();
 	UpdateRoundScore();
+}
+
+void AProject_RGBXCharacter::WinMatch()
+{
+	canMove = false;
+	wonTheMatch = true;
 }
 
 // the tick function is called every frame of the game session
