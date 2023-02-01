@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\Project_RGBX.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{6E3012C1-7B6E-4264-8488-DB236F8A5CAB}</UniqueIdentifier>
+      <UniqueIdentifier>{84A815DB-1FBD-4A71-9C34-1AABE03E2692}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Project_RGBX.Target.cs">
       <Filter>Source</Filter>
@@ -13,12 +13,14 @@
     </None>
     <None Include="..\..\.gitattributes" />
     <None Include="..\..\.gitignore" />
+    <None Include="..\..\Character State Machine" />
     <None Include="..\..\Flowcharts" />
     <None Include="..\..\Project_RGBX.png" />
     <None Include="..\..\PROJECT_RGBXGAMEMODE.ipch" />
     <None Include="..\..\README.md" />
+    <None Include="..\..\Untitled Diagram.drawio" />
     <Filter Include="Config">
-      <UniqueIdentifier>{F3D1CD31-5FBB-4E2F-AD71-B2C2B89C9010}</UniqueIdentifier>
+      <UniqueIdentifier>{DF94FC70-AF83-435A-B742-34D3D1CDC752}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -36,7 +38,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\Project_RGBX">
-      <UniqueIdentifier>{4D668536-6F3C-4BF0-83C2-C70B581CD69E}</UniqueIdentifier>
+      <UniqueIdentifier>{84EF670A-E2D0-4F47-85F8-A91BD1A3495D}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\Project_RGBX\BaseGameInstance.cpp">
       <Filter>Source\Project_RGBX</Filter>

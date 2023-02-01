@@ -298,8 +298,8 @@
   </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|arm64'">
 		<RemoveExtraDeployFiles>false</RemoveExtraDeployFiles>
-		<LayoutDir>C:\Users\Darks\Documents\Unreal Projects\project-rgb\Binaries\HoloLens\AppX</LayoutDir>
-		<AppxPackageRecipe>C:\Users\Darks\Documents\Unreal Projects\project-rgb\Binaries\HoloLens\Project_RGBX.build.appxrecipe</AppxPackageRecipe>
+		<LayoutDir>C:\Users\Darks\Documents\Unreal Projects\try-not-to-cry\project-rgb\Binaries\HoloLens\AppX</LayoutDir>
+		<AppxPackageRecipe>C:\Users\Darks\Documents\Unreal Projects\try-not-to-cry\project-rgb\Binaries\HoloLens\Project_RGBX.build.appxrecipe</AppxPackageRecipe>
 	</PropertyGroup>
     <ItemGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|arm64'">
 		<PropertyPageSchema Include="$(VCTargetsPath)$(LangID)\AppHostDebugger_Local.xml" />
@@ -380,8 +380,8 @@
   </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|arm64'">
 		<RemoveExtraDeployFiles>false</RemoveExtraDeployFiles>
-		<LayoutDir>C:\Users\Darks\Documents\Unreal Projects\project-rgb\Binaries\HoloLens\AppX</LayoutDir>
-		<AppxPackageRecipe>C:\Users\Darks\Documents\Unreal Projects\project-rgb\Binaries\HoloLens\Project_RGBX.build.appxrecipe</AppxPackageRecipe>
+		<LayoutDir>C:\Users\Darks\Documents\Unreal Projects\try-not-to-cry\project-rgb\Binaries\HoloLens\AppX</LayoutDir>
+		<AppxPackageRecipe>C:\Users\Darks\Documents\Unreal Projects\try-not-to-cry\project-rgb\Binaries\HoloLens\Project_RGBX.build.appxrecipe</AppxPackageRecipe>
 	</PropertyGroup>
     <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Development|arm64'">
 		<PropertyPageSchema Include="$(VCTargetsPath)$(LangID)\AppHostDebugger_Local.xml" />
@@ -445,8 +445,8 @@
   </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|arm64'">
 		<RemoveExtraDeployFiles>false</RemoveExtraDeployFiles>
-		<LayoutDir>C:\Users\Darks\Documents\Unreal Projects\project-rgb\Binaries\HoloLens\AppX</LayoutDir>
-		<AppxPackageRecipe>C:\Users\Darks\Documents\Unreal Projects\project-rgb\Binaries\HoloLens\Project_RGBX.build.appxrecipe</AppxPackageRecipe>
+		<LayoutDir>C:\Users\Darks\Documents\Unreal Projects\try-not-to-cry\project-rgb\Binaries\HoloLens\AppX</LayoutDir>
+		<AppxPackageRecipe>C:\Users\Darks\Documents\Unreal Projects\try-not-to-cry\project-rgb\Binaries\HoloLens\Project_RGBX.build.appxrecipe</AppxPackageRecipe>
 	</PropertyGroup>
     <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|arm64'">
 		<PropertyPageSchema Include="$(VCTargetsPath)$(LangID)\AppHostDebugger_Local.xml" />
@@ -466,10 +466,12 @@
     <None Include="..\..\Source\Project_RGBXEditor.Target.cs"/>
     <None Include="..\..\.gitattributes"/>
     <None Include="..\..\.gitignore"/>
+    <None Include="..\..\Character State Machine"/>
     <None Include="..\..\Flowcharts"/>
     <None Include="..\..\Project_RGBX.png"/>
     <None Include="..\..\PROJECT_RGBXGAMEMODE.ipch"/>
     <None Include="..\..\README.md"/>
+    <None Include="..\..\Untitled Diagram.drawio"/>
     <None Include="..\..\Config\DefaultEditor.ini"/>
     <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini"/>
     <None Include="..\..\Config\DefaultEngine.ini"/>
