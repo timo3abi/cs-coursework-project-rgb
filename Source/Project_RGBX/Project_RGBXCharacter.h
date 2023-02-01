@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BaseGameInstance.h"
+#include "Misc/FileHelper.h"
 #include "GameFramework/Character.h"
 #include "Project_RGBXCharacter.generated.h"
 
@@ -65,6 +66,67 @@ public:
 		TArray<FString> CMDReqs;
 };
 
+
+USTRUCT(BlueprintType)
+struct FMove
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+		FString moveName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+		bool moveUsed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+		TArray<FString> moveInput;
+
+	UENUM(BlueprintType)
+		enum class EHitboxType : uint8
+	{
+		HB_PROXIMITY	UMETA(DisplayName = "Proximity"),
+		HB_THROW		UMETA(DisplayName = "Throw"),
+		HB_STRIKE		UMETA(DisplayName = "Strike"),
+		HB_HURTBOX		UMETA(DisplayName = "Hurtbox")
+
+	};
+
+
+	//Damage that the hitbox applies to the target
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		float hitboxDamage;
+
+	//Damage that the hitbox applies to the target
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		float pushbackDistance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		float launchDistance;
+
+
+	//The amount of hitstun time
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		float hitstunTime;
+
+	//The amount of blockstun time
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		float blockstunTime;
+
+	//Hitbox type instancing. determining what type of hitbox it is, this property can be referenced in unreal
+	UENUM(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+	EHitboxType hitboxType;
+
+	//Hitbox Location instancing. allowing for us to declare the location of the hitbox in unreal using blueprints
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		FVector hitboxLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+		float inputTime;
+
+};
+
+
 UCLASS(config=Game)
 class AProject_RGBXCharacter : public ACharacter
 {
@@ -84,6 +146,8 @@ class AProject_RGBXCharacter : public ACharacter
 	void StartLK();
 	void StartMK();
 	void StartHK();
+
+
 
 	UFUNCTION(BlueprintCallable)
 		void P2KLP();
@@ -123,6 +187,7 @@ protected:
 
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+
 	// End of APawn interface
 
 	virtual void Tick(float DeltaTime) override;
@@ -189,11 +254,15 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	TArray<FCmd> FighterCmds;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moves")
+	TArray<FMove> Moveset;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	TArray<FInputData> inputStack;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player References")
 	AProject_RGBXCharacter * otherFighter;
+
 
 	// direction the character is moving. instance of enum declared above
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fighter Data")

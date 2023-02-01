@@ -2,6 +2,7 @@
 
 #include "Project_RGBXCharacter.h"
 #include "Camera/CameraComponent.h"
+#include "Misc/FileHelper.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -77,12 +78,24 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	hitLanded = false;
 	wasMRUsed = false;
 
-	FighterCmds.SetNum(3);
+
+
+
+	Moveset[0].moveName = "B-Emote";
+	Moveset[0].moveUsed = false;
+	Moveset[0].moveInput.Add("B");
+	Moveset[0].hitboxDamage = 0.70f;
+	Moveset[0].hitstunTime = 2.0f;
+	Moveset[0].blockstunTime = 1.0f;
+	Moveset[0].pushbackDistance = -50.0f;
+	Moveset[0].launchDistance = 0.0f;
+
+	FighterCmds.SetNum(4);
+
 
 	FighterCmds[0].CMDTag = "SDU";
 	FighterCmds[0].CMDReqs.Add("S");
-	FighterCmds[0].CMDReqs.Add("D");
-	FighterCmds[0].CMDReqs.Add("U");
+	FighterCmds[0].CMDReqs.Add("S");
 	FighterCmds[0].cmdUsed = false;
 
 	FighterCmds[1].CMDTag = "SWU";
@@ -96,6 +109,12 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	FighterCmds[2].CMDReqs.Add("A");
 	FighterCmds[2].CMDReqs.Add("J");
 	FighterCmds[2].cmdUsed = false;
+
+	FighterCmds[3].CMDTag = "123";
+	FighterCmds[3].CMDReqs.Add("1");
+	FighterCmds[3].CMDReqs.Add("2");
+	FighterCmds[3].CMDReqs.Add("3");
+	FighterCmds[3].cmdUsed = false;
 
 
 
@@ -152,6 +171,7 @@ void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 	
 	}
 }
+
 
 // when the character moves fwds/bwds the enum is set accordingly meaning we can script blueprint for directional input functionality
 void AProject_RGBXCharacter::MoveRight(float Value)
