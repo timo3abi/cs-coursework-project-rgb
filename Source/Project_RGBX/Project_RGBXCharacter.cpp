@@ -77,6 +77,17 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	hitLanded = false;
 	wasMRUsed = false;
 
+	Moveset.SetNum(1);
+
+	Moveset[0].moveName = "B-Emote";
+	Moveset[0].moveUsed = false;
+	Moveset[0].moveInput.Add("B");
+	Moveset[0].hitboxDamage = 0.70f;
+	Moveset[0].hitstunTime = 2.0f;
+	Moveset[0].blockstunTime = 1.0f;
+	Moveset[0].pushbackDistance = -50.0f;
+	Moveset[0].launchDistance = 0.0f;
+
 	FighterCmds.SetNum(3);
 
 	FighterCmds[0].CMDTag = "SDU";
@@ -559,6 +570,7 @@ void AProject_RGBXCharacter::AddInput(FInputData _inputData)
 {
 	inputStack.Add(_inputData);
 	CheckInputStackForCMD();
+	CheckInputStackForMove();
 }
 
 void AProject_RGBXCharacter::CheckInputStackForCMD()
@@ -609,6 +621,59 @@ void AProject_RGBXCharacter::StartCMD(FString _CMDtag)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Using CMD: &s."), *_CMDtag);
 			FighterCmds[thisCmd].cmdUsed = true;
+		}
+	}
+}
+
+
+void AProject_RGBXCharacter::CheckInputStackForMove()
+{
+	int ValidOrderCount = 0;
+
+	for (auto thisMove : Moveset)
+	{
+		for (int CMDinput = 0; CMDinput < thisMove.moveInput.Num(); ++CMDinput)
+		{
+			for (int input = 0; input < inputStack.Num(); ++input)
+			{
+				if (input + ValidOrderCount < inputStack.Num())
+				{
+					if (inputStack[input + ValidOrderCount].inputTag.Compare(thisMove.moveInput[CMDinput]) == 0)
+					{
+						UE_LOG(LogTemp, Warning, TEXT("Input added to CMD sequence"));
+						++ValidOrderCount;
+
+						if (ValidOrderCount == thisMove.moveInput.Num())
+						{
+							StartMove(thisMove.moveName);
+						}
+
+						break;
+					}
+					else
+					{
+						UE_LOG(LogTemp, Warning, TEXT("CMD sequence broken"));
+						ValidOrderCount = 0;
+					}
+				}
+				else
+				{
+					UE_LOG(LogTemp, Warning, TEXT("CMD sequence incomplete"));
+					ValidOrderCount = 0;
+				}
+			}
+		}
+	}
+}
+
+void AProject_RGBXCharacter::StartMove(FString _moveName)
+{
+	for (int thisMove = 0; thisMove < Moveset.Num(); ++thisMove)
+	{
+		if (_moveName.Compare(Moveset[thisMove].moveName) == 0)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Using CMD: &s."), *_moveName);
+			Moveset[thisMove].moveUsed = true;
 		}
 	}
 }
