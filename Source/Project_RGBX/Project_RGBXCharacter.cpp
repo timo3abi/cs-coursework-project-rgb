@@ -53,7 +53,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	gravityScale = GetCharacterMovement()->GravityScale;
 	chroMeter = 0.00f;
 	stunTime = 0.0f;
-	stackLife = 1.0f;
+	stackLife = 0.3f;
 	playerHealth = 1.00f;
 
 	wasLpUsed = false;
@@ -72,6 +72,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	wonTheMatch = false;
 
 	canMove = false;
+	canAttack = false;
 	isCrouched = false;
 	isFlipped = false;
 	hitLanded = false;
@@ -81,6 +82,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 
 	Moveset[0].moveName = "B-Emote";
 	Moveset[0].moveUsed = false;
+	Moveset[0].moveInput.Add("B");
 	Moveset[0].moveInput.Add("B");
 	Moveset[0].hitboxDamage = 0.70f;
 	Moveset[0].hitstunTime = 2.0f;
@@ -262,7 +264,7 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 
 void AProject_RGBXCharacter::Jump()
 {
-	if (canMove)
+	if (canMove && (characterState == ECharacterState::VE_MovingFWD || characterState == ECharacterState::VE_Default || characterState == ECharacterState::VE_MovingBWD))
 	{
 		if (isFlipped)
 		{
@@ -351,46 +353,67 @@ void AProject_RGBXCharacter::StopBlocking()
 
 void AProject_RGBXCharacter::StartLP()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Using LP"));
-	wasLpUsed = true;
-	AddInputIconToScreen(1);
+	if (canAttack)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Using LP"));
+		wasLpUsed = true;
+		AddInputIconToScreen(1);
+	}
+
 }
 
 void AProject_RGBXCharacter::StartMP()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Using MP"));
-	wasMpUsed = true;
-	AddInputIconToScreen(2);
+	if (canAttack)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Using MP"));
+		wasMpUsed = true;
+		AddInputIconToScreen(2);
+	}
 }
 
 void AProject_RGBXCharacter::StartHP()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Using HP"));
-	wasHpUsed = true;
-	AddInputIconToScreen(0);
+	if (canAttack)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Using HP"));
+		wasHpUsed = true;
+		AddInputIconToScreen(0);
+	}
 
 }
 
 void AProject_RGBXCharacter::StartLK()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Using LK"));
-	wasLkUsed = true;
-	AddInputIconToScreen(4);
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Using LK"));
+		wasLkUsed = true;
+		AddInputIconToScreen(4);
+	}
+
+
 }
 
 void AProject_RGBXCharacter::StartMK()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Using MK"))
-	wasMkUsed = true;
-	AddInputIconToScreen(3);
+
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Using MK"))
+		wasMkUsed = true;
+		AddInputIconToScreen(3);
+	}
 
 }
 
 void AProject_RGBXCharacter::StartHK()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Using HK"));
-	wasHkUsed = true;
-	AddInputIconToScreen(5);
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Using HK"));
+		wasHkUsed = true;
+		AddInputIconToScreen(5);
+	}
+
+
 }
 
 void AProject_RGBXCharacter::P2KLP()

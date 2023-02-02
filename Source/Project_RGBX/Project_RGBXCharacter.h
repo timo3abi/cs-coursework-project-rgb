@@ -344,6 +344,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	bool canMove;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+		bool canAttack;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	bool isCrouched;
 
