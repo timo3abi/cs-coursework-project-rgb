@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\Project_RGBX.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{50677D74-A7D5-4314-8D09-EB117C1BE8EC}</UniqueIdentifier>
+      <UniqueIdentifier>{B7D8A8EE-BC89-443A-8E1F-274DCB5E5FE2}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Project_RGBX.Target.cs">
       <Filter>Source</Filter>
@@ -20,7 +20,7 @@
     <None Include="..\..\README.md" />
     <None Include="..\..\Untitled Diagram.drawio" />
     <Filter Include="Config">
-      <UniqueIdentifier>{BBD29F14-DDCC-43FA-8A85-A74531A85CA3}</UniqueIdentifier>
+      <UniqueIdentifier>{427EBFA1-2E40-493B-8C4D-AB1AA2999F10}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -38,7 +38,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\Project_RGBX">
-      <UniqueIdentifier>{31C356D6-C6EA-4FA9-982F-C2B6537AEB3A}</UniqueIdentifier>
+      <UniqueIdentifier>{DA76888E-F651-4408-A560-264EB14BE73C}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\Project_RGBX\BaseGameInstance.cpp">
       <Filter>Source\Project_RGBX</Filter>
@@ -68,6 +68,12 @@
       <Filter>Source\Project_RGBX</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\Project_RGBX\HitboxActor.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Project_RGBX\MyBlueprintFunctionLibrary.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\MyBlueprintFunctionLibrary.h">
       <Filter>Source\Project_RGBX</Filter>
     </ClInclude>
     <None Include="..\..\Source\Project_RGBX\Project_RGBX.Build.cs">
