@@ -82,8 +82,6 @@ public:
 		MT_TELEPORT		UMETA(DisplayName = "Teleport"),
 		MT_SUPER		UMETA(DisplayName = "Super"),
 		MT_SPECIAL		UMETA(DisplayName = "Special")
-
-
 	};
 
 
