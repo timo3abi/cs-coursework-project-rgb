@@ -82,8 +82,9 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 
 	Moveset[0].moveName = "B-Emote";
 	Moveset[0].moveUsed = false;
-	Moveset[0].moveInput.Add("B");
-	Moveset[0].moveInput.Add("B");
+	Moveset[0].moveInput.Add("W");
+	Moveset[0].moveInput.Add("D");
+	Moveset[0].moveInput.Add("I");
 	Moveset[0].hitboxDamage = 0.70f;
 	Moveset[0].hitstunTime = 2.0f;
 	Moveset[0].blockstunTime = 1.0f;
@@ -170,7 +171,7 @@ void AProject_RGBXCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 void AProject_RGBXCharacter::MoveRight(float Value)
 {
 	wasMRUsed = true;
-	if (canMove && !isCrouched && characterState != ECharacterState::VE_Blocking && characterState != ECharacterState::VE_Crouching)
+	if (canMove && (!isCrouched && characterState != ECharacterState::VE_Blocking && characterState != ECharacterState::VE_Crouching))
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("Moving by %f"), Value);
 		if (characterState != ECharacterState::VE_Jumping && characterState != ECharacterState::VE_Launched)

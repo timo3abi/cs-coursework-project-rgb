@@ -14,6 +14,18 @@ enum class EHitboxEnum : uint8
 	HB_HURTBOX		UMETA(DisplayName = "Hurtbox")
 };
 
+UENUM(BlueprintType)
+enum class EHurtboxState : uint8
+{
+	VE_Default			UMETA(DisplayName = "NEUTRAL"),
+	VE_InStartup		UMETA(DisplayName = "STARTUP"),
+	VE_Active			UMETA(DisplayName = "ACTIVE"),
+	VE_Recovery			UMETA(DisplayName = "RECOVERY"),
+	VE_Invulnerable		UMETA(DisplayName = "INVULNERABLE"),
+	VE_Wakeup			UMETA(DisplayName = "WAKEUP")
+};
+
+
 UCLASS()
 class PROJECT_RGBX_API AHitboxActor : public AActor
 {

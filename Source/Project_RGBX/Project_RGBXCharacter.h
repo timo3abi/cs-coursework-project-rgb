@@ -25,14 +25,6 @@ enum class ECharacterState : uint8
 	VE_BlockStunned		UMETA(DisplayName = "IN_BLOCK_STUN")
 };
 
-UENUM(BlueprintType)
-enum class EAttackState : uint8
-{
-	VE_Default			UMETA(DisplayName = "NEUTRAL"),
-	VE_InStartup		UMETA(DisplayName = "STARTUP"),
-	VE_Active			UMETA(DisplayName = "ACTIVE"),
-	VE_Recovery			UMETA(DisplayName = "RECOVERY")
-};
 
 USTRUCT(BlueprintType)
 struct FInputData
@@ -82,12 +74,15 @@ public:
 		TArray<FString> moveInput;
 
 	UENUM(BlueprintType)
-		enum class EHitboxType : uint8
+		enum class EMoveType : uint8
 	{
-		HB_PROXIMITY	UMETA(DisplayName = "Proximity"),
-		HB_THROW		UMETA(DisplayName = "Throw"),
-		HB_STRIKE		UMETA(DisplayName = "Strike"),
-		HB_HURTBOX		UMETA(DisplayName = "Hurtbox")
+		MT_BUFF			UMETA(DisplayName = "Buff"),
+		MT_THROW		UMETA(DisplayName = "Throw"),
+		MT_STRIKE		UMETA(DisplayName = "Strike"),
+		MT_TELEPORT		UMETA(DisplayName = "Teleport"),
+		MT_SUPER		UMETA(DisplayName = "Super"),
+		MT_SPECIAL		UMETA(DisplayName = "Special")
+
 
 	};
 
@@ -114,7 +109,7 @@ public:
 
 	//Hitbox type instancing. determining what type of hitbox it is, this property can be referenced in unreal
 	UENUM(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
-		EHitboxType hitboxType;
+		EMoveType MoveType;
 
 	//Hitbox Location instancing. allowing for us to declare the location of the hitbox in unreal using blueprints
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
