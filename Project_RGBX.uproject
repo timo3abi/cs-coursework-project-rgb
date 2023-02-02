@@ -12,5 +12,15 @@
 				"Engine"
 			]
 		}
+	],
+	"Plugins": [
+		{
+			"Name": "ChaosNiagara",
+			"Enabled": false
+		},
+		{
+			"Name": "PythonScriptPlugin",
+			"Enabled": true
+		}
 	]
 }
