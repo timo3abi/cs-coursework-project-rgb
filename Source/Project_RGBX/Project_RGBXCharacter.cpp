@@ -195,7 +195,7 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 					characterState = ECharacterState::VE_Default;
 					AxisInputReleased = true;
 				}
-				AddMovementInput(FVector(0.f, -1.f, 0.f), Value);
+				AddMovementInput(FVector(0.f, 0.f, 0.f), Value);
 			}
 			// if the character ends up being flipped the the directional inputs must also be flipped
 			else if (isFlipped)
@@ -217,7 +217,7 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 					characterState = ECharacterState::VE_Default;
 					AxisInputReleased = true;
 				}
-				AddMovementInput(FVector(0.f, -1.f, 0.f), Value);
+				AddMovementInput(FVector(0.f, 0.f, 0.f), Value);
 			}
 			else if (canMove && characterState == ECharacterState::VE_Crouching)
 			{
