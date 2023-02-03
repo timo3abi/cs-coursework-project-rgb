@@ -22,7 +22,9 @@ enum class ECharacterState : uint8
 	VE_Blocking			UMETA(DisplayName = "BLOCKING"),
 	VE_HitStunned		UMETA(DisplayName = "IN_HIT_STUN"),
 	VE_Launched			UMETA(DisplayName = "LAUNCHED"),
+	VE_Invulnerable		UMETA(DisplayName = "INVULNERABLE"),
 	VE_BlockStunned		UMETA(DisplayName = "IN_BLOCK_STUN")
+
 };
 
 
@@ -55,6 +57,49 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 		TArray<FString> CMDReqs;
+
+	UENUM(BlueprintType)
+		enum class EMoveType : uint8
+	{
+		MT_BUFF			UMETA(DisplayName = "Buff"),
+		MT_THROW		UMETA(DisplayName = "Throw"),
+		MT_STRIKE		UMETA(DisplayName = "Strike"),
+		MT_TELEPORT		UMETA(DisplayName = "Teleport"),
+		MT_SUPER		UMETA(DisplayName = "Super"),
+		MT_SPECIAL		UMETA(DisplayName = "Special")
+	};
+
+
+	//Damage that the hitbox applies to the target
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		float hitboxDamage;
+
+	//Damage that the hitbox applies to the target
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		float pushbackDistance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		float launchDistance;
+
+	//The amount of hitstun time
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		float hitstunTime;
+
+	//The amount of blockstun time
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		float blockstunTime;
+
+	//Hitbox type instancing. determining what type of hitbox it is, this property can be referenced in unreal
+	UENUM(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		EMoveType MoveType;
+
+	//Hitbox Location instancing. allowing for us to declare the location of the hitbox in unreal using blueprints
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		FVector hitboxLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+		float inputTime;
+
 };
 
 
@@ -95,7 +140,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
 		float launchDistance;
-
 
 	//The amount of hitstun time
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
@@ -207,6 +251,15 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void TakeDamage(float _damageAmount,float _stunTime, float _blockstunTime,float _knockbackDistance, float _launchAmount );
 
+	UFUNCTION(BlueprintCallable)
+	void InitialiseCombo(float _startingDamage);
+
+	UFUNCTION(BlueprintCallable)
+	void UpdateComboInfo(float _totalDamage, float _damageBuffer );
+
+	UFUNCTION(BlueprintCallable)
+	void EndCombo();
+
 	void BeginStun();
 
 	void EndStun();
@@ -279,6 +332,18 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	float stunTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+	float damageBuffer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+		float totalDamage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+		int comboHits;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+	bool comboUsed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	float stackLife;

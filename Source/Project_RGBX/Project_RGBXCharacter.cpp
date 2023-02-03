@@ -73,10 +73,14 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 
 	canMove = false;
 	canAttack = false;
+	comboUsed = false;
 	isCrouched = false;
 	isFlipped = false;
 	hitLanded = false;
 	wasMRUsed = false;
+	damageBuffer = 1.0f;
+	totalDamage = 0.0f;
+	comboHits = 0;
 
 	Moveset.SetNum(1);
 
@@ -98,18 +102,33 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 	FighterCmds[0].CMDReqs.Add("D");
 	FighterCmds[0].CMDReqs.Add("U");
 	FighterCmds[0].cmdUsed = false;
+	FighterCmds[0].hitboxDamage = 0.70f;
+	FighterCmds[0].hitstunTime = 2.0f;
+	FighterCmds[0].blockstunTime = 1.0f;
+	FighterCmds[0].pushbackDistance = -50.0f;
+	FighterCmds[0].launchDistance = 0.0f;
 
 	FighterCmds[1].CMDTag = "SWU";
 	FighterCmds[1].CMDReqs.Add("S");
 	FighterCmds[1].CMDReqs.Add("W");
 	FighterCmds[1].CMDReqs.Add("U");
 	FighterCmds[1].cmdUsed = false;
+	FighterCmds[1].hitboxDamage = 0.70f;
+	FighterCmds[1].hitstunTime = 2.0f;
+	FighterCmds[1].blockstunTime = 1.0f;
+	FighterCmds[1].pushbackDistance = -50.0f;
+	FighterCmds[1].launchDistance = 0.0f;
 
 	FighterCmds[2].CMDTag = "SAJ";
 	FighterCmds[2].CMDReqs.Add("S");
 	FighterCmds[2].CMDReqs.Add("A");
 	FighterCmds[2].CMDReqs.Add("J");
 	FighterCmds[2].cmdUsed = false;
+	FighterCmds[2].hitboxDamage = 0.70f;
+	FighterCmds[2].hitstunTime = 2.0f;
+	FighterCmds[2].blockstunTime = 1.0f;
+	FighterCmds[2].pushbackDistance = -50.0f;
+	FighterCmds[2].launchDistance = 0.0f;
 
 
 
@@ -472,6 +491,41 @@ void AProject_RGBXCharacter::P2KMoveRight(float _value)
 	MoveRight( _value);
 }
 
+void AProject_RGBXCharacter::InitialiseCombo(float _startingDamage)
+{
+	if (comboHits == 0 && ((characterState == ECharacterState::VE_Launched) || (characterState == ECharacterState::VE_HitStunned)))
+	{
+		comboUsed = true;
+		totalDamage = _startingDamage;
+		comboHits = 1;
+	}
+
+}
+
+void AProject_RGBXCharacter::UpdateComboInfo(float _totalDamage, float _damageBuffer)
+{
+	if (comboUsed && ((characterState == ECharacterState::VE_Launched) || (characterState == ECharacterState::VE_HitStunned)))
+	{
+		totalDamage = totalDamage + _totalDamage;
+		damageBuffer = _damageBuffer;
+		comboHits++ ;
+	}
+	else
+	{
+		EndCombo();
+	}
+}
+
+
+void AProject_RGBXCharacter::EndCombo()
+{
+	comboUsed = false;
+	damageBuffer = 1.0f;
+	totalDamage = 0.0f;
+	comboHits = 0;
+}
+
+
 void AProject_RGBXCharacter::ProximityHitboxCollision()
 {
 	UE_LOG(LogTemp, Warning, TEXT("called"));
@@ -487,10 +541,11 @@ void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, fl
 
 	if (characterState != ECharacterState::VE_Blocking)
 	{
-
-		UE_LOG(LogTemp, Warning, TEXT("Taking %f points of damage"), _damageAmount);
-		playerHealth -= _damageAmount;
-		chroMeter += _damageAmount * 0.60f;
+		InitialiseCombo(_damageAmount);
+		UpdateComboInfo(totalDamage, damageBuffer);
+		UE_LOG(LogTemp, Warning, TEXT("Taking %f points of damage"), _damageAmount * damageBuffer);
+		playerHealth -= _damageAmount * damageBuffer;
+		chroMeter += _damageAmount * damageBuffer * 0.60f;
 
 
 		stunTime = _stunTime;

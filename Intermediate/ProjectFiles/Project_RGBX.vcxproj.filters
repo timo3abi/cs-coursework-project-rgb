@@ -121,5 +121,6 @@
     <ClInclude Include="..\..\Source\Project_RGBX\ZONER.h">
       <Filter>Source\Project_RGBX</Filter>
     </ClInclude>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
