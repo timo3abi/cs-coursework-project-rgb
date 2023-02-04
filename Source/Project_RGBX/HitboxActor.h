@@ -64,6 +64,11 @@ public:
 	FVector hitboxLocation;
 
 
+	//Hitbox Location instancing. allowing for us to declare the location of the hitbox in unreal using blueprints
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+	bool shouldAttach;
+
+
 
 protected:
 	// Called when the game starts or when spawned

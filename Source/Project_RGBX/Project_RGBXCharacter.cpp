@@ -538,59 +538,63 @@ void AProject_RGBXCharacter::ProximityHitboxCollision()
 
 void AProject_RGBXCharacter::TakeDamage(float _damageAmount, float _stunTime, float _blockstunTime, float _knockbackDistance, float _launchAmount)
 {
-
-	if (characterState != ECharacterState::VE_Blocking)
+	if (characterState != ECharacterState::VE_Invulnerable)
 	{
-		InitialiseCombo(_damageAmount);
-		UpdateComboInfo(totalDamage, damageBuffer);
-		UE_LOG(LogTemp, Warning, TEXT("Taking %f points of damage"), _damageAmount * damageBuffer);
-		playerHealth -= _damageAmount * damageBuffer;
-		chroMeter += _damageAmount * damageBuffer * 0.60f;
+		if (characterState != ECharacterState::VE_Blocking)
+			{
+				InitialiseCombo(_damageAmount);
+				UpdateComboInfo(totalDamage, damageBuffer);
+				UE_LOG(LogTemp, Warning, TEXT("Taking %f points of damage"), _damageAmount * damageBuffer);
+				playerHealth -= _damageAmount * damageBuffer;
+				chroMeter += _damageAmount * damageBuffer * 0.60f;
 
 
-		stunTime = _stunTime;
-		if (stunTime > 0.0f)
-		{		
-		characterState = ECharacterState::VE_HitStunned;
-		BeginStun();
-		}
+				stunTime = _stunTime;
+				if (stunTime > 0.0f)
+				{		
+				characterState = ECharacterState::VE_HitStunned;
+				BeginStun();
+				}
 
 
-		if (otherFighter)
-		{
-			otherFighter->hitLanded = true;
-			otherFighter->KnockBack(_knockbackDistance*0.5, false,0.0f);
-			otherFighter->chroMeter += _damageAmount * 0.30f;
-		}
-		KnockBack(_knockbackDistance, false, _launchAmount);
+				if (otherFighter)
+				{
+					otherFighter->hitLanded = true;
+					otherFighter->KnockBack(_knockbackDistance*0.5, false,0.0f);
+					otherFighter->chroMeter += _damageAmount * 0.30f;
+				}
+				KnockBack(_knockbackDistance, false, _launchAmount);
+			}
+			else
+			{
+				float chipDamage = _damageAmount * 0.2f;
+				UE_LOG(LogTemp, Warning, TEXT("Taking %f points of chip damage"), chipDamage);
+				playerHealth -= chipDamage;
+				chroMeter += _damageAmount * 0.80f;
+
+				stunTime = _blockstunTime;
+				if (stunTime > 0.0f)
+				{
+					BeginStun();
+
+				}
+
+				else
+				{
+					characterState = ECharacterState::VE_Default;
+				}
+
+				if (otherFighter)
+				{
+					otherFighter->hitLanded = false;
+					otherFighter->KnockBack(_knockbackDistance*0.2, false,0.0f);
+					otherFighter->chroMeter += _damageAmount * 0.50f;
+				}
+				KnockBack(_knockbackDistance, true, 0.0f);
+			}
 	}
-	else
-	{
-		float chipDamage = _damageAmount * 0.2f;
-		UE_LOG(LogTemp, Warning, TEXT("Taking %f points of chip damage"), chipDamage);
-		playerHealth -= chipDamage;
-		chroMeter += _damageAmount * 0.80f;
 
-		stunTime = _blockstunTime;
-		if (stunTime > 0.0f)
-		{
-			BeginStun();
-
-		}
-
-		else
-		{
-			characterState = ECharacterState::VE_Default;
-		}
-
-		if (otherFighter)
-		{
-			otherFighter->hitLanded = false;
-			otherFighter->KnockBack(_knockbackDistance*0.2, false,0.0f);
-			otherFighter->chroMeter += _damageAmount * 0.50f;
-		}
-		KnockBack(_knockbackDistance, true, 0.0f);
-	}
+	
 
 	if (playerHealth < 0.00f)
 	{

@@ -22,6 +22,7 @@ enum class ECharacterState : uint8
 	VE_Blocking			UMETA(DisplayName = "BLOCKING"),
 	VE_HitStunned		UMETA(DisplayName = "IN_HIT_STUN"),
 	VE_Launched			UMETA(DisplayName = "LAUNCHED"),
+	VE_KnockedDown		UMETA(DisplayName = "DOWNED"),
 	VE_Invulnerable		UMETA(DisplayName = "INVULNERABLE"),
 	VE_BlockStunned		UMETA(DisplayName = "IN_BLOCK_STUN")
 
