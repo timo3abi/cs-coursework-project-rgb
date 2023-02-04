@@ -24,6 +24,7 @@ enum class ECharacterState : uint8
 	VE_Launched			UMETA(DisplayName = "LAUNCHED"),
 	VE_KnockedDown		UMETA(DisplayName = "DOWNED"),
 	VE_Invulnerable		UMETA(DisplayName = "INVULNERABLE"),
+	VE_Recovery			UMETA(DisplayName = "RECOVERY"),
 	VE_BlockStunned		UMETA(DisplayName = "IN_BLOCK_STUN")
 
 };
@@ -351,6 +352,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	float gravityScale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+		float gravityScaleBuffer;
 
 	// Has the player used LP
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Normals")

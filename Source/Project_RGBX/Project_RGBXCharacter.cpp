@@ -7,6 +7,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Project_RGBX/Project_RGBXGameMode.h"
+#include <Project_RGBX/HitboxActor.h>
 
 
 AProject_RGBXCharacter::AProject_RGBXCharacter()
@@ -51,6 +52,7 @@ AProject_RGBXCharacter::AProject_RGBXCharacter()
 
 	scale = FVector(0.0f, 0.0f, 0.0f);
 	gravityScale = GetCharacterMovement()->GravityScale;
+	gravityScaleBuffer = 0.7f;
 	chroMeter = 0.00f;
 	stunTime = 0.0f;
 	stackLife = 0.3f;
@@ -284,7 +286,7 @@ void AProject_RGBXCharacter::MoveRight(float Value)
 
 void AProject_RGBXCharacter::Jump()
 {
-	if (canMove && (characterState == ECharacterState::VE_MovingFWD || characterState == ECharacterState::VE_Default || characterState == ECharacterState::VE_MovingBWD))
+	if (canMove && (characterState != ECharacterState::VE_KnockedDown && characterState != ECharacterState::VE_HitStunned && characterState != ECharacterState::VE_BlockStunned && characterState != ECharacterState::VE_Recovery && characterState != ECharacterState::VE_Invulnerable) &&(characterState == ECharacterState::VE_MovingFWD || characterState == ECharacterState::VE_Default || characterState == ECharacterState::VE_MovingBWD))
 	{
 		if (isFlipped)
 		{
@@ -329,6 +331,11 @@ void AProject_RGBXCharacter::Jump()
 			characterState = ECharacterState::VE_Jumping;
 			UE_LOG(LogTemp, Warning, TEXT("Jumping"));
 		}
+
+	}	
+	else if(characterState == ECharacterState::VE_KnockedDown)
+	{
+		characterState = ECharacterState::VE_Recovery;
 	}
 }
 
@@ -339,10 +346,23 @@ void AProject_RGBXCharacter::StopJumping()
 
 void AProject_RGBXCharacter::Landed(const FHitResult& Hit)
 {
-	if (characterState == ECharacterState::VE_Launched || characterState == ECharacterState::VE_Jumping)
+	if (characterState == ECharacterState::VE_Jumping)
 	{
-		GetCharacterMovement()->GravityScale = gravityScale;
-		characterState = ECharacterState::VE_Default;
+		if (!Cast<AHitboxActor>(Hit.Actor.Get()))
+		{
+			GetCharacterMovement()->GravityScale = gravityScale;
+			gravityScaleBuffer = 0.7f;
+			characterState = ECharacterState::VE_Default;
+		}
+	}
+	else if (characterState == ECharacterState::VE_Launched)
+	{
+		if (!Cast<AHitboxActor>(Hit.Actor.Get()))
+		{
+			GetCharacterMovement()->GravityScale = gravityScale;
+			gravityScaleBuffer = 0.7f;
+			characterState = ECharacterState::VE_KnockedDown;
+		}
 	}
 }
 
@@ -620,7 +640,8 @@ void AProject_RGBXCharacter::KnockBack(float _knockbackDistance, bool _isBlockin
 	{
 		if (_launchAmount > 0.0f)
 		{
-			GetCharacterMovement()->GravityScale *= 0.5;
+			GetCharacterMovement()->GravityScale *= gravityScaleBuffer;
+			gravityScaleBuffer += 0.1f;
 			characterState = ECharacterState::VE_Launched;
 		}
 		if (isFlipped)

@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\Project_RGBX.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{809DC2A6-D003-4277-A2D4-A6157767C297}</UniqueIdentifier>
+      <UniqueIdentifier>{139EA88F-210A-48CE-A086-7E6AF08EFFF9}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Project_RGBX.Target.cs">
       <Filter>Source</Filter>
@@ -20,7 +20,7 @@
     <None Include="..\..\README.md" />
     <None Include="..\..\Untitled Diagram.drawio" />
     <Filter Include="Config">
-      <UniqueIdentifier>{656C501D-54E6-45F9-B374-EDB0CA64C34B}</UniqueIdentifier>
+      <UniqueIdentifier>{F7979CB4-2095-49A2-BF95-3522915242BB}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -38,7 +38,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\Project_RGBX">
-      <UniqueIdentifier>{06CADADF-1DE5-40BE-B6DA-82F43BF92398}</UniqueIdentifier>
+      <UniqueIdentifier>{26D6159D-29DA-4802-9570-B34B6AC8BDE6}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\Project_RGBX\BaseGameInstance.cpp">
       <Filter>Source\Project_RGBX</Filter>
@@ -103,6 +103,12 @@
     <ClInclude Include="..\..\Source\Project_RGBX\REKKA.h">
       <Filter>Source\Project_RGBX</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\Project_RGBX\RGBXGameDatabase.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\RGBXGameDatabase.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\Project_RGBX\RUSHDOWN.cpp">
       <Filter>Source\Project_RGBX</Filter>
     </ClCompile>
@@ -121,6 +127,5 @@
     <ClInclude Include="..\..\Source\Project_RGBX\ZONER.h">
       <Filter>Source\Project_RGBX</Filter>
     </ClInclude>
-    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
