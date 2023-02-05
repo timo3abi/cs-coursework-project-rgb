@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\Project_RGBX.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{BEAB6761-0C06-4313-88A5-D15D72EE7D80}</UniqueIdentifier>
+      <UniqueIdentifier>{9A82C8DF-E091-4D43-A4CB-B65D8B22D071}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Project_RGBX.Target.cs">
       <Filter>Source</Filter>
@@ -20,7 +20,7 @@
     <None Include="..\..\README.md" />
     <None Include="..\..\Untitled Diagram.drawio" />
     <Filter Include="Config">
-      <UniqueIdentifier>{7DD8B8B7-6A83-4144-9866-1BBBD79F6449}</UniqueIdentifier>
+      <UniqueIdentifier>{9C1CA8C6-141F-43FA-88C5-873C6480505A}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -38,7 +38,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\Project_RGBX">
-      <UniqueIdentifier>{27684C28-F083-4878-BA01-91A573541E52}</UniqueIdentifier>
+      <UniqueIdentifier>{E38A4658-E5E4-4CA0-867D-4EB81191A187}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\Project_RGBX\BaseGameInstance.cpp">
       <Filter>Source\Project_RGBX</Filter>
@@ -56,6 +56,12 @@
       <Filter>Source\Project_RGBX</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\Project_RGBX\CHARGE.h">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Project_RGBX\DatabaseManager.cpp">
+      <Filter>Source\Project_RGBX</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Project_RGBX\DatabaseManager.h">
       <Filter>Source\Project_RGBX</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\Project_RGBX\GRAPPLER.cpp">
