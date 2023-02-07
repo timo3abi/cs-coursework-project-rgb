@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\Project_RGBX.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{7BEF9864-7D3B-4A63-A394-6EE2F70B4F2C}</UniqueIdentifier>
+      <UniqueIdentifier>{9A82C8DF-E091-4D43-A4CB-B65D8B22D071}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Project_RGBX.Target.cs">
       <Filter>Source</Filter>
@@ -20,7 +20,7 @@
     <None Include="..\..\README.md" />
     <None Include="..\..\Untitled Diagram.drawio" />
     <Filter Include="Config">
-      <UniqueIdentifier>{DA4F5459-9E4E-460A-B4D8-2C61FF9DF240}</UniqueIdentifier>
+      <UniqueIdentifier>{9C1CA8C6-141F-43FA-88C5-873C6480505A}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -38,7 +38,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\Project_RGBX">
-      <UniqueIdentifier>{BCF5E989-A0F1-4B5B-A1A6-0C16D0BDAA32}</UniqueIdentifier>
+      <UniqueIdentifier>{E38A4658-E5E4-4CA0-867D-4EB81191A187}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\Project_RGBX\BaseGameInstance.cpp">
       <Filter>Source\Project_RGBX</Filter>
